@@ -1,0 +1,51 @@
+{% extends 'innapp/base.html' %}
+{% block content %}
+
+    <div class="panel-body">
+        <div class="col-md-8">
+            {% if template.idt_reg <= 0 %}
+                <form id="imovelForm" method="POST" class="post-form" action="/imovel/novo">
+                    {% csrf_token %}
+                    <div class="form-group control-group">
+                        {{ template.form.as_p }}
+                    </div>
+                    <div>
+                        <div style="text-align: center;">
+                            <button type="submit" class="btn btn-primary">salvar</button>
+                            <button type="button" class="btn btn-default limpar">limpar</button>
+                        </div>
+                    </div>
+                </form>
+            {% else %}
+                <h1>{{ template.idt_reg }}</h1>
+                <form id="imovelAtualizacaoForm" method="POST" class="post-form" action="/imovel/edita/{{ template.idt_reg }}">
+                    {% csrf_token %}
+                    <div class="form-group control-group">
+                        {{ template.form.as_p }}
+                    </div>
+                    <div>
+                        <div style="text-align: center;">
+                            <button type="submit" class="btn btn-primary">salvar</button>
+                            <button type="button" class="btn btn-default limpar">limpar</button>
+                        </div>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+
+    <div>
+        {% if template.all %}
+            <ul>
+                {% for imovel in template.all %}
+                    <li>
+                        {{ imovel.idt_imovel }} | <a href="/imovel/{{ imovel.idt_imovel }}">{{ imovel.desc_endereco }}</a> | {{ imovel.desc_status }} |  {{ imovel.dt_criacao|date:'d/m/Y H:i' }} | <a href="/imovel/desativa/{{ imovel.idt_imovel }}">desativar</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Nenhum imóvel cadastrado</p>
+        {% endif %}
+    </div>
+
+{% endblock %}
