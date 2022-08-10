@@ -12,6 +12,16 @@
 </head>
 <body>
 
+    <div>
+        {% if template.message %}
+            {% if template.status == 'success' %}
+                <h3 style="color: green;">{{ template.message }}</h3>
+            {% else %}
+                <h3 style="color: red;">{{ template.message }}</h3>
+            {% endif %}
+        {% endif %}
+    </div>
+
     {% block content %}
     {% endblock %}
 
