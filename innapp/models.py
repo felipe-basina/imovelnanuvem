@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.db import models
 from django.utils import timezone
+from django.forms import ModelForm
+from django import forms
 
 
 class ImovelTbl(models.Model):
@@ -21,6 +24,21 @@ class ImovelTbl(models.Model):
     # Permite com que esse campo receba caracteres especiais
     def __unicode__(self):
         return self.desc_endereco
+
+
+class ImovelForm(ModelForm):
+    class Meta:
+        model = ImovelTbl
+        fields = ['desc_endereco']
+        labels = {
+            'desc_endereco': 'Endereço imóvel',
+        }
+        widgets = {
+            'desc_endereco': forms.TextInput(attrs={'class': 'form-control',}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(ImovelForm, self).__init__(*args, **kwargs)
 
 
 class InquilinoTbl(models.Model):
