@@ -1,4 +1,4 @@
-from django.http import *
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.utils.timezone import utc
 import datetime
@@ -6,10 +6,12 @@ import datetime
 from ..models import ImovelTbl, ImovelForm
 
 
+@login_required(login_url='/acesso/login')
 def imovel_todos(request):
     return render(request, 'innapp/imovel.html', {'template': imovel_template()})
 
 
+@login_required(login_url='/acesso/login')
 def imovel_novo(request):
     if request.method == "POST":
         form = ImovelForm(request.POST)
@@ -26,6 +28,7 @@ def imovel_novo(request):
     return render(request, 'innapp/imovel.html', {'template': imovel_map})
 
 
+@login_required(login_url='/acesso/login')
 def imovel_por_id(request, idt):
     imovel_map = imovel_template(idt)
 
@@ -47,6 +50,7 @@ def imovel_por_id(request, idt):
     return render(request, 'innapp/imovel.html', {'template': imovel_map})
 
 
+@login_required(login_url='/acesso/login')
 def imovel_edita(request, idt):
     imovel_map = imovel_template()
 
@@ -77,6 +81,7 @@ def imovel_edita(request, idt):
     return render(request, 'innapp/imovel.html', {'template': imovel_map})
 
 
+@login_required(login_url='/acesso/login')
 def imovel_desativa(request, idt):
     imovel_map = imovel_template()
 
