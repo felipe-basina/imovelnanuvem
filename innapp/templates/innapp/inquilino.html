@@ -1,0 +1,50 @@
+{% extends 'innapp/base.html' %}
+{% block content %}
+
+    <div class="panel-body">
+        <div class="col-md-8">
+            {% if template.idt_reg <= 0 %}
+                <form id="inquilinoForm" method="POST" class="post-form" action="/inquilino/novo">
+                    {% csrf_token %}
+                    <div class="form-group control-group">
+                        {{ template.form.as_p }}
+                    </div>
+                    <div>
+                        <div style="text-align: center;">
+                            <button type="submit" class="btn btn-primary">salvar</button>
+                            <button type="button" class="btn btn-default limpar">limpar</button>
+                        </div>
+                    </div>
+                </form>
+            {% else %}
+                <form id="inquilinoAtualizacaoForm" method="POST" class="post-form" action="/inquilino/edita/{{ template.idt_reg }}">
+                    {% csrf_token %}
+                    <div class="form-group control-group">
+                        {{ template.form.as_p }}
+                    </div>
+                    <div>
+                        <div style="text-align: center;">
+                            <button type="submit" class="btn btn-primary">salvar</button>
+                            <button type="button" class="btn btn-default limpar">limpar</button>
+                        </div>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+
+    <div>
+        {% if template.all %}
+            <ul>
+                {% for inquilino in template.all %}
+                    <li>
+                        {{ inquilino.idt_inquilino }} | <a href="/inquilino/{{ inquilino.idt_inquilino }}">{{ inquilino.desc_nome }}</a> | {{ inquilino.desc_tipo }} | {{ inquilino.dt_inicio|date:'d/m/Y' }} | {{ inquilino.dt_fim|date:'d/m/Y' }} | {{ inquilino.desc_status }} | {{ inquilino.num_vencimento }} | {{ inquilino.dt_criacao|date:'d/m/Y H:i' }} | <a href="/inquilino/desativa/{{ inquilino.idt_inquilino }}">desativar</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Nenhum inquilino cadastrado</p>
+        {% endif %}
+    </div>
+
+{% endblock %}
