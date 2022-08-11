@@ -34,7 +34,7 @@ class ImovelForm(ModelForm):
             'desc_endereco': 'Endereço imóvel',
         }
         widgets = {
-            'desc_endereco': forms.TextInput(attrs={'class': 'form-control',}),
+            'desc_endereco': forms.TextInput(attrs={'class': 'form-control', }),
         }
 
     def __init__(self, *args, **kwargs):
@@ -48,7 +48,7 @@ class InquilinoTbl(models.Model):
     desc_status = models.CharField(max_length=20)
     dt_inicio = models.DateField()
     dt_fim = models.DateField()
-    dt_vencimento = models.DateField()
+    num_vencimento = models.IntegerField(default=1)
     dt_criacao = models.DateTimeField(default=timezone.now)
     dt_atualizacao = models.DateTimeField(default=timezone.now)
 
@@ -63,6 +63,41 @@ class InquilinoTbl(models.Model):
     # Permite com que esse campo receba caracteres especiais
     def __unicode__(self):
         return self.desc_nome
+
+
+TIPO_PESSOA_OPCOES = (
+    ('PF', 'física'),
+    ('PJ', 'jurídica')
+)
+
+DIAS_OPCOES = [(str(i), str(i)) for i in range(1, 32)]
+
+
+class InquilinoForm(ModelForm):
+    class Meta:
+        model = InquilinoTbl
+        fields = ['desc_nome', 'desc_tipo', 'dt_inicio', 'dt_fim', 'num_vencimento']
+        labels = {
+            'desc_nome': 'Inquilino',
+            'desc_tipo': 'Tipo',
+            'dt_inicio': 'Data início',
+            'dt_fim': 'Data fim',
+            'num_vencimento': 'Dia vencimento',
+        }
+        widgets = {
+            'desc_nome': forms.TextInput(attrs={'class': 'form-control', }),
+            'desc_tipo': forms.RadioSelect(choices=TIPO_PESSOA_OPCOES, attrs={'class': 'form-control custom_radio', }),
+            'dt_inicio': forms.DateInput(format=('%d/%m/%Y'),
+                                         attrs={'class': 'form-control', 'type': 'date',
+                                                'placeholder': 'Selecione uma data'}),
+            'dt_fim': forms.DateInput(format=('%d/%m/%Y'),
+                                      attrs={'class': 'form-control', 'type': 'date',
+                                             'placeholder': 'Selecione uma data'}),
+            'num_vencimento': forms.Select(choices=DIAS_OPCOES, attrs={'class': 'form-control tamanho_caixa', }),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(InquilinoForm, self).__init__(*args, **kwargs)
 
 
 class AluguelTbl(models.Model):
