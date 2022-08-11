@@ -16,13 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from innapp.views import imovel
+from innapp.views import imovel, login_logout, inicial
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('acc/admin/', admin.site.urls),
     path('imovel/lista', imovel.imovel_todos),
     path('imovel/novo', imovel.imovel_novo),
     path('imovel/<int:idt>', imovel.imovel_por_id),
     path('imovel/edita/<int:idt>', imovel.imovel_edita),
     path('imovel/desativa/<int:idt>', imovel.imovel_desativa),
+    path('acesso/login', login_logout.login_user),
+    path('acesso/logout', login_logout.logout_user),
+    path('', inicial.inicio),
 ]
