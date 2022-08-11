@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="BR_PT">
+<head>
+
+    <meta charset="utf-8">
+    <meta charset="ISO-8859-1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>imóvel na nuvem</title>
+
+</head>
+<body>
+
+<h1>Imóvel na Nuvem ☁️</h1>
+
+<div>
+    {% if message %}
+        {% if template.status == 'success' %}
+            <h3 style="color: green;">{{ message }}</h3>
+        {% else %}
+            <h3 style="color: red;">{{ message }}</h3>
+        {% endif %}
+    {% endif %}
+</div>
+
+<div>
+    <div class="panel-body">
+        <div class="col-md-8">
+            <form id="loginForm" method="POST" class="post-form" action="/acesso/login">
+                {% csrf_token %}
+                {% if next %}
+                    <input type="hidden" name="next" value="{{ next }}" />
+                {% endif %}
+                <div class="form-row">
+                    <div class="form-group control-group">
+                        <label for="email">usu&aacute;rio</label>
+                        <div class="controls">
+                            <input type="text" id="username" name="username" class="form-control" placeholder="nome">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group control-group">
+                        <label class="control-label" for="password">senha</label>
+                        <div class="controls">
+                            <input type="password" name="password" id="password" class="form-control" placeholder="senha">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn btn-primary">entrar</button>
+                        <button type="button" class="btn btn-default limpar">limpar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
