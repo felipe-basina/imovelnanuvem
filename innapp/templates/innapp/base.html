@@ -29,3 +29,15 @@
 
 </body>
 </html>
+
+<script>
+
+    function recuperarRegistroPorAno(endpoint, ano) {
+        try {
+            window.location.href = endpoint + ano;
+        } catch (e) {
+            console.log(`Erro ao recuperar registros por ano: ${e}`);
+        }
+    }
+
+</script>
