@@ -19,7 +19,7 @@ class ImovelTbl(models.Model):
         verbose_name = ('Imóveis')
 
     def __str__(self):
-        return "{0} | {1}".format(self.desc_endereco, self.desc_status)
+        return self.desc_endereco
 
     # Permite com que esse campo receba caracteres especiais
     def __unicode__(self):
@@ -58,7 +58,7 @@ class InquilinoTbl(models.Model):
         verbose_name = ('Inquilino')
 
     def __str__(self):
-        return "{0} | {1} | {2}".format(self.desc_nome, self.desc_tipo, self.desc_status)
+        return self.desc_nome
 
     # Permite com que esse campo receba caracteres especiais
     def __unicode__(self):
@@ -117,6 +117,33 @@ class AluguelTbl(models.Model):
         managed = True
         db_table = 'aluguel_tbl'
         verbose_name = ('Aluguel')
+
+
+class AluguelForm(ModelForm):
+    class Meta:
+        model = AluguelTbl
+        fields = ['idt_imovel', 'idt_inquilino', 'dt_recebimento', 'num_aluguel', 'num_administracao', 'num_acordo']
+        labels = {
+            'idt_imovel': 'Imóvel',
+            'idt_inquilino': 'Inquilino',
+            'dt_recebimento': 'Data recebimento',
+            'num_aluguel': 'Valor aluguel',
+            'num_administracao': 'Valor administração',
+            'num_acordo': 'Valor acordo',
+        }
+        widgets = {
+            'idt_imovel': forms.Select(attrs={'class': 'form-control', }),
+            'idt_inquilino': forms.Select(attrs={'class': 'form-control', }),
+            'dt_recebimento': forms.DateInput(format=('%d/%m/%Y'),
+                                              attrs={'class': 'form-control', 'type': 'date',
+                                                     'placeholder': 'Selecione uma data'}),
+            'num_aluguel': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.01"}),
+            'num_administracao': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.01"}),
+            'num_acordo': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.01"}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(AluguelForm, self).__init__(*args, **kwargs)
 
 
 class ReformaTbl(models.Model):
