@@ -67,17 +67,4 @@
     <p>Nenhum aluguel cadastrado</p>
     {% endif %}
 </div>
-
-<script>
-
-    function recuperarRegistroPorAno(endpoint, ano) {
-        try {
-            window.location.href = endpoint + ano;
-        } catch (e) {
-            console.log(`Erro ao recuperar registros por ano: ${e}`);
-        }
-    }
-
-</script>
-
 {% endblock %}
