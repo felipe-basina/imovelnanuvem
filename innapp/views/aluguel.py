@@ -1,7 +1,5 @@
 import datetime
-import itertools
 
-from django.db import connection
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.utils.timezone import utc
@@ -9,7 +7,7 @@ from django.utils.timezone import utc
 from .imovel import recuperar_imoveis
 from .inquilino import recuperar_inquilinos
 from ..models import AluguelTbl, AluguelForm
-from ..utils.utilidades import ajusta_para_apresentacao
+from ..utils.utilidades import ajusta_para_apresentacao, recuperar_anos_disponiveis
 
 
 @login_required(login_url='/acesso/login')
@@ -75,7 +73,7 @@ def aluguel_por_id(request, idt):
 
 @login_required(login_url='/acesso/login')
 def aluguel_edita(request, idt):
-    aluguel_map = aluguel_template()
+    aluguel_map = {}
 
     if not idt:
         aluguel_map['message'] = 'Registro inválido'
@@ -99,6 +97,7 @@ def aluguel_edita(request, idt):
         )
         aluguel_atualizado.save(force_insert=False)
 
+        aluguel_map = aluguel_template(idt_reg=0, ano=aluguel.dt_recebimento.year)
         aluguel_map['message'] = 'Aluguel atualizado com sucesso'
         aluguel_map['status'] = 'success'
     except AluguelTbl.DoesNotExist:
@@ -112,7 +111,7 @@ def aluguel_template(idt_reg=0, ano=datetime.date.today().year):
     all = AluguelTbl.objects.filter(dt_recebimento__year=ano).order_by('-dt_recebimento', '-idt_aluguel')
 
     current_year = datetime.date.today().year
-    available_years = recuperar_anos_aluguel()
+    available_years = recuperar_anos_disponiveis('aluguel_tbl', 'dt_recebimento')
 
     # Verifica se o ano atual esta presente na lista, caso contrario, adiciona
     if int(current_year) not in available_years:
@@ -133,14 +132,3 @@ def aluguel_dependencias(aluguel_form):
     aluguel_form['form'].fields['idt_imovel'].queryset = recuperar_imoveis()
     aluguel_form['form'].fields['idt_inquilino'].queryset = recuperar_inquilinos()
     return aluguel_form
-
-
-def recuperar_anos_aluguel():
-    cursor = connection.cursor()
-    cursor.execute('SELECT cast(EXTRACT(year FROM dt_recebimento) as bigint) as ANOS '
-                   'FROM aluguel_tbl '
-                   'GROUP BY EXTRACT(year FROM dt_recebimento) '
-                   'ORDER BY EXTRACT(year FROM dt_recebimento) DESC ')
-    lista = cursor.fetchall()
-    # Converte a tupla em lista
-    return list(itertools.chain.from_iterable(lista))
