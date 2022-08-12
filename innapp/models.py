@@ -87,7 +87,7 @@ class InquilinoForm(ModelForm):
         widgets = {
             'desc_nome': forms.TextInput(attrs={'class': 'form-control', }),
             'desc_tipo': forms.RadioSelect(choices=TIPO_PESSOA_OPCOES, attrs={'class': 'form-control custom_radio', }),
-            'dt_inicio': forms.DateInput(format=('%d/%m/%Y'),
+            'dt_inicio': forms.DateInput(format='%d/%m/%Y',
                                          attrs={'class': 'form-control', 'type': 'date',
                                                 'placeholder': 'Selecione uma data'}),
             'dt_fim': forms.DateInput(format=('%d/%m/%Y'),
@@ -134,7 +134,7 @@ class AluguelForm(ModelForm):
         widgets = {
             'idt_imovel': forms.Select(attrs={'class': 'form-control', }),
             'idt_inquilino': forms.Select(attrs={'class': 'form-control', }),
-            'dt_recebimento': forms.DateInput(format=('%d/%m/%Y'),
+            'dt_recebimento': forms.DateInput(format='%d/%m/%Y',
                                               attrs={'class': 'form-control', 'type': 'date',
                                                      'placeholder': 'Selecione uma data'}),
             'num_aluguel': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.01"}),
@@ -159,3 +159,30 @@ class ReformaTbl(models.Model):
         managed = True
         db_table = 'reforma_tbl'
         verbose_name = ('Reforma')
+
+    # Permite com que esse campo receba caracteres especiais
+    def __unicode__(self):
+        return self.desc_reforma
+
+
+class ReformaForm(ModelForm):
+    class Meta:
+        model = ReformaTbl
+        fields = ['idt_imovel', 'dt_reforma', 'num_reforma', 'desc_reforma']
+        labels = {
+            'idt_imovel': 'Imóvel',
+            'dt_reforma': 'Data reforma',
+            'num_reforma': 'Valor reforma',
+            'desc_reforma': 'Descrição',
+        }
+        widgets = {
+            'idt_imovel': forms.Select(attrs={'class': 'form-control', }),
+            'dt_reforma': forms.DateInput(format='%d/%m/%Y',
+                                          attrs={'class': 'form-control', 'type': 'date',
+                                                 'placeholder': 'Selecione uma data'}),
+            'num_reforma': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.01"}),
+            'desc_reforma': forms.TextInput(attrs={'class': 'form-control', }),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(ReformaForm, self).__init__(*args, **kwargs)

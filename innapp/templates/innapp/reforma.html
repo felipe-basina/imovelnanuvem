@@ -4,11 +4,11 @@
 
 <div class="panel-body">
     <div class="col-md-4 selecao-ano">
-        <label for="ano_aluguel">Selecione o ano para visualizar os aluguéis</label>
+        <label for="ano_reforma">Selecione o ano para visualizar as reformas</label>
     </div>
     <div class="col-md-2">
-        <select name="ano_aluguel" class="form-control"
-                onchange="javascript:recuperarRegistroPorAno('/aluguel/lista/ano/', this.value);">
+        <select name="ano_reforma" class="form-control"
+                onchange="javascript:recuperarRegistroPorAno('/reforma/lista/ano/', this.value);">
             {% for ano in template.available_years %}
                 <!-- Forçando a comparação entre valores inteiros -->
                 {% if template.selected_year|add:0 == ano|add:0 %}
@@ -24,7 +24,7 @@
 <div class="panel-body">
     <div class="col-md-8">
         {% if template.idt_reg <= 0 %}
-        <form id="aluguelForm" method="POST" class="post-form" action="/aluguel/novo">
+        <form id="reformaForm" method="POST" class="post-form" action="/reforma/novo">
             {% csrf_token %}
             <div class="form-group control-group">
                 {{ template.form.as_p }}
@@ -37,8 +37,8 @@
             </div>
         </form>
         {% else %}
-        <form id="aluguelAtualizacaoForm" method="POST" class="post-form"
-              action="/aluguel/edita/{{ template.idt_reg }}">
+        <form id="reformaAtualizacaoForm" method="POST" class="post-form"
+              action="/reforma/edita/{{ template.idt_reg }}">
             {% csrf_token %}
             <div class="form-group control-group">
                 {{ template.form.as_p }}
@@ -57,27 +57,14 @@
 <div>
     {% if template.all %}
     <ul>
-        {% for aluguel in template.all %}
+        {% for reforma in template.all %}
         <li>
-            {{ aluguel.idt_aluguel }} | <a href="/aluguel/{{ aluguel.idt_aluguel }}">{{ aluguel.dt_recebimento|date:'d/m/Y' }}</a> | {{ aluguel.idt_imovel }} | {{ aluguel.idt_inquilino }} | {{ aluguel.num_aluguel|intcomma }} | {{ aluguel.num_administracao|intcomma }} | {{ aluguel.num_acordo|intcomma }} | {{ aluguel.dt_criacao|date:'d/m/Y H:i' }}
+            {{ reforma.idt_reforma }} | <a href="/reforma/{{ reforma.idt_reforma }}">{{ reforma.dt_reforma|date:'d/m/Y' }}</a> | {{ reforma.idt_imovel }} | {{ reforma.num_reforma|intcomma }} | {{ reforma.desc_reforma }} | {{ reforma.dt_criacao|date:'d/m/Y H:i' }}
         </li>
         {% endfor %}
     </ul>
     {% else %}
-    <p>Nenhum aluguel cadastrado</p>
+    <p>Nenhuma reforma cadastrada</p>
     {% endif %}
 </div>
-
-<script>
-
-    function recuperarRegistroPorAno(endpoint, ano) {
-        try {
-            window.location.href = endpoint + ano;
-        } catch (e) {
-            console.log(`Erro ao recuperar registros por ano: ${e}`);
-        }
-    }
-
-</script>
-
 {% endblock %}
