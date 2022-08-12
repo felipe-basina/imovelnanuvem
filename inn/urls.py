@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from innapp.views import imovel, login_logout, inicial, inquilino, aluguel, reforma
+from innapp.views import imovel, login_logout, inicial, inquilino, aluguel, reforma, relatorio
 
 urlpatterns = [
     path('acc/admin/', admin.site.urls),
@@ -40,6 +40,8 @@ urlpatterns = [
     path('reforma/novo', reforma.reforma_novo),
     path('reforma/<int:idt>', reforma.reforma_por_id),
     path('reforma/edita/<int:idt>', reforma.reforma_edita),
+    path('rel/aluguel/lista/ano', relatorio.aluguel_mes_ano),
+    path('rel/aluguel/lista/ano/<int:year>', relatorio.aluguel_mes_ano),
     path('acesso/login', login_logout.login_user),
     path('acesso/logout', login_logout.logout_user),
     path('', inicial.inicio),
