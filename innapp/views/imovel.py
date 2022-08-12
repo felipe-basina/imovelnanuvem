@@ -117,3 +117,10 @@ def imovel_template(idt_reg=0):
         'idt_reg': idt_reg
     }
     return imovel_map
+
+
+def recuperar_imoveis(all=False):
+    if all:
+        return ImovelTbl.objects.all().order_by('desc_endereco')
+    else:
+        return ImovelTbl.objects.filter(desc_status='ATIVO').order_by('desc_endereco')
