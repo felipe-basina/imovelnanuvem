@@ -41,18 +41,34 @@ def reforma_ano(request, year=datetime.date.today().year):
 
 @login_required(login_url='/acesso/login')
 def administracao_mes_ano(request, year=datetime.date.today().year):
-    alugueis = recuperar_administracao_mes_ano(year)
+    administracao = recuperar_administracao_mes_ano(year)
     return render(request,
                   'innapp/rel-mes-ano.html',
-                  {'template': relatorio_template(alugueis, year, 'aluguel_tbl', 'dt_recebimento', 'administracao', 'administração')})
+                  {'template': relatorio_template(administracao, year, 'aluguel_tbl', 'dt_recebimento', 'administracao', 'administração')})
 
 
 @login_required(login_url='/acesso/login')
 def administracao_ano(request, year=datetime.date.today().year):
-    alugueis = recuperar_administracao_ano()
+    administracao = recuperar_administracao_ano()
     return render(request,
                   'innapp/rel-ano.html',
-                  {'template': relatorio_template(alugueis, year, 'aluguel_tbl', 'dt_recebimento', 'administracao', 'administração')})
+                  {'template': relatorio_template(administracao, year, 'aluguel_tbl', 'dt_recebimento', 'administracao', 'administração')})
+
+
+@login_required(login_url='/acesso/login')
+def ir_pf_mes_ano(request, year=datetime.date.today().year):
+    ir_pf = recuperar_ir_pf_mes_ano(year)
+    return render(request,
+                  'innapp/rel-mes-ano.html',
+                  {'template': relatorio_template(ir_pf, year, 'aluguel_tbl', 'dt_recebimento', 'irpf', 'IR PF')})
+
+
+@login_required(login_url='/acesso/login')
+def ir_pf_ano(request, year=datetime.date.today().year):
+    ir_pf = recuperar_ir_pf_ano()
+    return render(request,
+                  'innapp/rel-ano.html',
+                  {'template': relatorio_template(ir_pf, year, 'aluguel_tbl', 'dt_recebimento', 'irpf', 'IR PF')})
 
 
 def relatorio_template(registros, ano, tabela, coluna, tipo_registro, tipo_registro_pl):
