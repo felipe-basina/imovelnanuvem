@@ -1,70 +1,61 @@
 {% extends 'innapp/base.html' %}
 {% load humanize %}
+{% load table_tags %}
 {% block content %}
 
-<div class="panel-body">
-    <div class="col-md-4 selecao-ano">
-        <label for="ano_reforma">Selecione o ano para visualizar as reformas</label>
+    <div class="panel-body">
+        <div class="col-md-4 selecao-ano">
+            <label for="ano_reforma">Selecione o ano para visualizar as reformas</label>
+        </div>
+        <div class="col-md-2">
+            <select name="ano_reforma" class="form-control"
+                    onchange="javascript:recuperarRegistroPorAno('/reforma/lista/ano/', this.value);">
+                {% for ano in template.available_years %}
+                    <!-- Forçando a comparação entre valores inteiros -->
+                    {% if template.selected_year|add:0 == ano|add:0 %}
+                        <option value="{{ano}}" selected>{{ano}}</option>
+                    {% else %}
+                        <option value="{{ano}}">{{ano}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
     </div>
-    <div class="col-md-2">
-        <select name="ano_reforma" class="form-control"
-                onchange="javascript:recuperarRegistroPorAno('/reforma/lista/ano/', this.value);">
-            {% for ano in template.available_years %}
-                <!-- Forçando a comparação entre valores inteiros -->
-                {% if template.selected_year|add:0 == ano|add:0 %}
-                    <option value="{{ano}}" selected>{{ano}}</option>
-                {% else %}
-                    <option value="{{ano}}">{{ano}}</option>
-                {% endif %}
-            {% endfor %}
-        </select>
-    </div>
-</div>
 
-<div class="panel-body">
-    <div class="col-md-8">
-        {% if template.idt_reg <= 0 %}
-        <form id="reformaForm" method="POST" class="post-form" action="/reforma/novo">
-            {% csrf_token %}
-            <div class="form-group control-group">
-                {{ template.form.as_p }}
-            </div>
-            <div>
-                <div style="text-align: center;">
-                    <button type="submit" class="btn btn-primary">salvar</button>
-                    <button type="button" class="btn btn-default limpar">limpar</button>
+    <div class="panel-body">
+        <div class="col-md-8">
+            {% if template.idt_reg <= 0 %}
+            <form id="reformaForm" method="POST" class="post-form" action="/reforma/novo">
+                {% csrf_token %}
+                <div class="form-group control-group">
+                    {{ template.form.as_p }}
                 </div>
-            </div>
-        </form>
-        {% else %}
-        <form id="reformaAtualizacaoForm" method="POST" class="post-form"
-              action="/reforma/edita/{{ template.idt_reg }}">
-            {% csrf_token %}
-            <div class="form-group control-group">
-                {{ template.form.as_p }}
-            </div>
-            <div>
-                <div style="text-align: center;">
-                    <button type="submit" class="btn btn-primary">salvar</button>
-                    <button type="button" class="btn btn-default limpar">limpar</button>
+                <div>
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn btn-primary">salvar</button>
+                        <button type="button" class="btn btn-default limpar">limpar</button>
+                    </div>
                 </div>
-            </div>
-        </form>
-        {% endif %}
+            </form>
+            {% else %}
+            <form id="reformaAtualizacaoForm" method="POST" class="post-form"
+                  action="/reforma/edita/{{ template.idt_reg }}">
+                {% csrf_token %}
+                <div class="form-group control-group">
+                    {{ template.form.as_p }}
+                </div>
+                <div>
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn btn-primary">salvar</button>
+                        <button type="button" class="btn btn-default limpar">limpar</button>
+                    </div>
+                </div>
+            </form>
+            {% endif %}
+        </div>
     </div>
-</div>
 
-<div>
-    {% if template.all %}
-    <ul>
-        {% for reforma in template.all %}
-        <li>
-            {{ reforma.idt_reforma }} | <a href="/reforma/{{ reforma.idt_reforma }}">{{ reforma.dt_reforma|date:'d/m/Y' }}</a> | {{ reforma.idt_imovel }} | {{ reforma.num_reforma|intcomma }} | {{ reforma.desc_reforma }} | {{ reforma.dt_criacao|date:'d/m/Y H:i' }}
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>Nenhuma reforma cadastrada</p>
-    {% endif %}
-</div>
+    <div>
+        {% render_table template.all %}
+    </div>
 {% endblock %}
