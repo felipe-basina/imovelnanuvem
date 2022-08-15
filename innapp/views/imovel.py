@@ -4,6 +4,7 @@ from django.utils.timezone import utc
 import datetime
 
 from ..models import ImovelTbl, ImovelForm
+from ..tables import ImovelTable
 
 
 @login_required(login_url='/acesso/login')
@@ -111,8 +112,9 @@ def imovel_desativa(request, idt):
 
 
 def imovel_template(idt_reg=0):
+    all = ImovelTbl.objects.filter(desc_status='ATIVO').order_by('idt_imovel')
     imovel_map = {
-        'all': ImovelTbl.objects.filter(desc_status='ATIVO').order_by('idt_imovel'),
+        'all': ImovelTable(all),
         'form': ImovelForm(),
         'idt_reg': idt_reg
     }
