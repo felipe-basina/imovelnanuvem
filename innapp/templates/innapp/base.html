@@ -23,20 +23,28 @@
 </head>
 <body>
 
-<a href="/">início</a> | <a href="/acesso/logout">sair</a>
+<div id="wrapper">
+    <a href="/">início</a> | <a href="/acesso/logout">sair</a>
 
-<div>
-    {% if template.message %}
-    {% if template.status == 'success' %}
-    <h3 style="color: green;">{{ template.message }}</h3>
-    {% else %}
-    <h3 style="color: red;">{{ template.message }}</h3>
-    {% endif %}
-    {% endif %}
-</div>
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            {% if template.message %}
+            <div class="alert alert-{{ template.status }} alert-dismissable fade in" style="display: block;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong>{{ template.message }}</strong>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
 
-{% block content %}
-{% endblock %}
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
 
 </body>
 </html>
