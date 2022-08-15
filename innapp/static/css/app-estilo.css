@@ -1,0 +1,20 @@
+#id_desc_tipo {
+    border: none;
+    display: flex;
+    margin-bottom: 50px;
+}
+
+label[for=id_desc_tipo_0] {
+    width: 10%;
+    display: inline-block;
+    min-width: 4vw;
+    text-align: center;
+}
+
+label[for=id_desc_tipo_1] {
+    width: 10%;
+    display: inline-block;
+    min-width: 4vw;
+    float: right;
+    text-align: center;
+}
