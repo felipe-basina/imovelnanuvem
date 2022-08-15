@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from innapp.views import imovel, login_logout, inicial, inquilino, aluguel, reforma
+from innapp.views import imovel, login_logout, inicial, inquilino, aluguel, reforma, relatorio
 
 urlpatterns = [
     path('acc/admin/', admin.site.urls),
@@ -40,6 +40,22 @@ urlpatterns = [
     path('reforma/novo', reforma.reforma_novo),
     path('reforma/<int:idt>', reforma.reforma_por_id),
     path('reforma/edita/<int:idt>', reforma.reforma_edita),
+    path('rel/aluguel/lista/mes', relatorio.aluguel_mes_ano),
+    path('rel/aluguel/lista/mes/<int:year>', relatorio.aluguel_mes_ano),
+    path('rel/aluguel/lista/ano', relatorio.aluguel_ano),
+    path('rel/aluguel/lista/ano/<int:year>', relatorio.aluguel_ano),
+    path('rel/reforma/lista/mes', relatorio.reforma_mes_ano),
+    path('rel/reforma/lista/mes/<int:year>', relatorio.reforma_mes_ano),
+    path('rel/reforma/lista/ano', relatorio.reforma_ano),
+    path('rel/reforma/lista/ano/<int:year>', relatorio.reforma_ano),
+    path('rel/administracao/lista/mes', relatorio.administracao_mes_ano),
+    path('rel/administracao/lista/mes/<int:year>', relatorio.administracao_mes_ano),
+    path('rel/administracao/lista/ano', relatorio.administracao_ano),
+    path('rel/administracao/lista/ano/<int:year>', relatorio.administracao_ano),
+    path('rel/irpf/lista/mes', relatorio.ir_pf_mes_ano),
+    path('rel/irpf/lista/mes/<int:year>', relatorio.ir_pf_mes_ano),
+    path('rel/irpf/lista/ano', relatorio.ir_pf_ano),
+    path('rel/irpf/lista/ano/<int:year>', relatorio.ir_pf_ano),
     path('acesso/login', login_logout.login_user),
     path('acesso/logout', login_logout.logout_user),
     path('', inicial.inicio),
