@@ -39,6 +39,22 @@ def reforma_ano(request, year=datetime.date.today().year):
                   {'template': relatorio_template(reformas, year, 'reforma_tbl', 'dt_reforma', 'reforma', 'reformas')})
 
 
+@login_required(login_url='/acesso/login')
+def administracao_mes_ano(request, year=datetime.date.today().year):
+    alugueis = recuperar_administracao_mes_ano(year)
+    return render(request,
+                  'innapp/rel-mes-ano.html',
+                  {'template': relatorio_template(alugueis, year, 'aluguel_tbl', 'dt_recebimento', 'administracao', 'administração')})
+
+
+@login_required(login_url='/acesso/login')
+def administracao_ano(request, year=datetime.date.today().year):
+    alugueis = recuperar_administracao_ano()
+    return render(request,
+                  'innapp/rel-ano.html',
+                  {'template': relatorio_template(alugueis, year, 'aluguel_tbl', 'dt_recebimento', 'administracao', 'administração')})
+
+
 def relatorio_template(registros, ano, tabela, coluna, tipo_registro, tipo_registro_pl):
     current_year = datetime.date.today().year
     available_years = recuperar_anos_disponiveis(tabela, coluna)
