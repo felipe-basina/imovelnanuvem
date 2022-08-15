@@ -1,0 +1,48 @@
+{% extends 'innapp/base.html' %}
+{% load humanize %}
+{% block content %}
+
+<div class="tab-content">
+    <div id="registro-mes-ano" class="tab-pane panel panel-default fade in active">
+       <div class="panel-heading">
+          <h3 class="panel-title">
+             Relat&oacute;rio de {{ template.type_reg_pl }} ano
+          </h3>
+       </div>
+       <!-- Grid -->
+       <div class="panel-body">
+          <div class="col-md-12">
+             <div id="registro_real_mes_div" class="form-group table-responsive">
+                <table id="registro-mes" class="table-striped" width="100%">
+                   <thead>
+                      <tr>
+                         <th>
+                            ano
+                         </th>
+                         <th>
+                            valor
+                         </th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      {% for periodo, valor in template.all %}
+                      <tr class="alinhamento-texto">
+                         <td>{{ periodo }}</td>
+                         <td>{{ valor|intcomma }}</td>
+                      </tr>
+                      {% endfor %}
+                   </tbody>
+                   <tfoot>
+                      <tr>
+                         <th></th>
+                         <th></th>
+                      </tr>
+                   </tfoot>
+                </table>
+             </div>
+          </div>
+       </div>
+    </div>
+</div>
+
+{% endblock %}
