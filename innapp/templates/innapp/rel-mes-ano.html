@@ -4,11 +4,11 @@
 
 <div class="panel-body">
     <div class="col-md-4 selecao-ano">
-        <label for="ano_aluguel">Selecione o ano para visualizar os aluguéis</label>
+        <label for="ano_aluguel">Selecione o ano para visualizar os {{ template.type_reg_pl }}</label>
     </div>
     <div class="col-md-2">
-        <select name="ano_aluguel" class="form-control"
-                onchange="javascript:recuperarRegistroPorAno('/rel/aluguel/lista/ano/', this.value);">
+        <select name="ano_registro" class="form-control"
+                onchange="javascript:recuperarRegistroPorAno('/rel/{{template.type_reg}}/lista/mes/', this.value);">
             {% for ano in template.available_years %}
                 <!-- Forçando a comparação entre valores inteiros -->
                 {% if template.selected_year|add:0 == ano|add:0 %}
@@ -22,17 +22,17 @@
 </div>
 
 <div class="tab-content">
-    <div id="aluguel-mes-ano" class="tab-pane panel panel-default fade in active">
+    <div id="registro-mes-ano" class="tab-pane panel panel-default fade in active">
        <div class="panel-heading">
           <h3 class="panel-title">
-             Relat&oacute;rio de aluguéis mês/ano
+             Relat&oacute;rio de {{ template.type_reg_pl }}
           </h3>
        </div>
        <!-- Grid -->
        <div class="panel-body">
           <div class="col-md-12">
-             <div id="despesa_real_mes_div" class="form-group table-responsive">
-                <table id="aluguel-mes" class="table-striped" width="100%">
+             <div id="registro_real_mes_div" class="form-group table-responsive">
+                <table id="registro-mes" class="table-striped" width="100%">
                    <thead>
                       <tr>
                          <th>
