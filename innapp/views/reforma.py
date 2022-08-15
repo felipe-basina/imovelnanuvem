@@ -6,6 +6,7 @@ from django.utils.timezone import utc
 
 from .imovel import recuperar_imoveis
 from ..models import ReformaTbl, ReformaForm
+from ..tables import ReformaTable
 from ..utils.utilidades import recuperar_anos_disponiveis, ajusta_para_apresentacao
 
 
@@ -114,7 +115,7 @@ def reforma_template(idt_reg=0, ano=datetime.date.today().year):
         available_years.insert(0, int(current_year))
 
     reforma_map = {
-        'all': all,
+        'all': ReformaTable(all),
         'form': ReformaForm(),
         'idt_reg': idt_reg,
         'available_years': available_years,
