@@ -14,7 +14,7 @@ label[for=id_desc_tipo_0] {
 label[for=id_desc_tipo_1] {
     width: 10% !important;
     display: inline-block !important;
-    min-width: 4vw !important;
+    min-width: 0vw !important;
     float: right !important;
     text-align: center !important;
 }
