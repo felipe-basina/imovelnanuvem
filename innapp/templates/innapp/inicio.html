@@ -1,25 +1,10 @@
 {% extends 'innapp/base.html' %}
 {% block content %}
 
-    <h1>{{ message }}</h1>
-    <h3>Gestão</h3>
-    <ul>
-        <li><a href="/imovel/lista">Gestão de imóveis</a></li>
-        <li><a href="/inquilino/lista">Gestão de inquilinos</a></li>
-        <li><a href="/aluguel/lista">Gestão de aluguéis</a></li>
-        <li><a href="/reforma/lista">Gestão de reformas</a></li>
-    </ul>
-
-    <h3>Relatórios</h3>
-    <ul>
-        <li><a href="/rel/aluguel/lista/mes">Aluguéis mês/ano</a></li>
-        <li><a href="/rel/aluguel/lista/ano">Aluguéis ano</a></li>
-        <li><a href="/rel/reforma/lista/mes">Reformas mês/ano</a></li>
-        <li><a href="/rel/reforma/lista/ano">Reformas ano</a></li>
-        <li><a href="/rel/administracao/lista/mes">Administração mês/ano</a></li>
-        <li><a href="/rel/administracao/lista/ano">Administração ano</a></li>
-        <li><a href="/rel/irpf/lista/mes">IR PF mês/ano</a></li>
-        <li><a href="/rel/irpf/lista/ano">IR PF ano</a></li>
-    </ul>
+<div class="panel-heading">
+    <h3 class="panel-title">
+        {{ message }}
+    </h3>
+</div>
 
 {% endblock %}
