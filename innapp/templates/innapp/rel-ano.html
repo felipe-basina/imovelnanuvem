@@ -3,6 +3,12 @@
 {% load table_tags %}
 {% block content %}
 
+<div class="panel-heading">
+    <h3 class="panel-title">
+        Relatório {{ template.type_reg }}
+    </h3>
+</div>
+
 <div>
     {% render_table template.all %}
 </div>
