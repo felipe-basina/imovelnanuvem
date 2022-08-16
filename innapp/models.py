@@ -86,7 +86,7 @@ class InquilinoForm(ModelForm):
         }
         widgets = {
             'desc_nome': forms.TextInput(attrs={'class': 'form-control', }),
-            'desc_tipo': forms.RadioSelect(choices=TIPO_PESSOA_OPCOES, attrs={'class': 'form-control custom_radio', }),
+            'desc_tipo': forms.RadioSelect(choices=TIPO_PESSOA_OPCOES, attrs={'class': '', }),
             'dt_inicio': forms.DateInput(format='%d/%m/%Y',
                                          attrs={'class': 'form-control', 'type': 'date',
                                                 'placeholder': 'Selecione uma data'}),

@@ -4,6 +4,7 @@ from django.utils.timezone import utc
 import datetime
 
 from ..models import InquilinoTbl, InquilinoForm
+from ..tables import InquilinoTable
 from ..utils.utilidades import ajusta_para_apresentacao
 
 
@@ -128,8 +129,9 @@ def inquilino_desativa(request, idt):
 
 
 def inquilino_template(idt_reg=0):
+    all = InquilinoTbl.objects.filter(desc_status='ATIVO').order_by('desc_nome')
     inquilino_map = {
-        'all': InquilinoTbl.objects.filter(desc_status='ATIVO').order_by('desc_nome'),
+        'all': InquilinoTable(all),
         'form': InquilinoForm(),
         'idt_reg': idt_reg
     }

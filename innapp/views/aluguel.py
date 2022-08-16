@@ -7,6 +7,7 @@ from django.utils.timezone import utc
 from .imovel import recuperar_imoveis
 from .inquilino import recuperar_inquilinos
 from ..models import AluguelTbl, AluguelForm
+from ..tables import AluguelTable
 from ..utils.utilidades import ajusta_para_apresentacao, recuperar_anos_disponiveis
 
 
@@ -118,7 +119,7 @@ def aluguel_template(idt_reg=0, ano=datetime.date.today().year):
         available_years.insert(0, int(current_year))
 
     aluguel_map = {
-        'all': all,
+        'all': AluguelTable(all),
         'form': AluguelForm(),
         'idt_reg': idt_reg,
         'available_years': available_years,

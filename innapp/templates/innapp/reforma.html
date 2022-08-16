@@ -1,6 +1,13 @@
 {% extends 'innapp/base.html' %}
 {% load humanize %}
+{% load table_tags %}
 {% block content %}
+
+<div class="panel-heading">
+    <h3 class="panel-title">
+        Gestão de reformas
+    </h3>
+</div>
 
 <div class="panel-body">
     <div class="col-md-4 selecao-ano">
@@ -10,12 +17,12 @@
         <select name="ano_reforma" class="form-control"
                 onchange="javascript:recuperarRegistroPorAno('/reforma/lista/ano/', this.value);">
             {% for ano in template.available_years %}
-                <!-- Forçando a comparação entre valores inteiros -->
-                {% if template.selected_year|add:0 == ano|add:0 %}
-                    <option value="{{ano}}" selected>{{ano}}</option>
-                {% else %}
-                    <option value="{{ano}}">{{ano}}</option>
-                {% endif %}
+            <!-- Forçando a comparação entre valores inteiros -->
+            {% if template.selected_year|add:0 == ano|add:0 %}
+            <option value="{{ano}}" selected>{{ano}}</option>
+            {% else %}
+            <option value="{{ano}}">{{ano}}</option>
+            {% endif %}
             {% endfor %}
         </select>
     </div>
@@ -54,17 +61,7 @@
     </div>
 </div>
 
-<div>
-    {% if template.all %}
-    <ul>
-        {% for reforma in template.all %}
-        <li>
-            {{ reforma.idt_reforma }} | <a href="/reforma/{{ reforma.idt_reforma }}">{{ reforma.dt_reforma|date:'d/m/Y' }}</a> | {{ reforma.idt_imovel }} | {{ reforma.num_reforma|intcomma }} | {{ reforma.desc_reforma }} | {{ reforma.dt_criacao|date:'d/m/Y H:i' }}
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>Nenhuma reforma cadastrada</p>
-    {% endif %}
+<div class="form-group table-responsive">
+    {% render_table template.all %}
 </div>
 {% endblock %}

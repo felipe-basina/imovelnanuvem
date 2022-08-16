@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="BR_PT">
 <head>
@@ -7,56 +8,93 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}"/>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="{% static 'css/app-estilo.css' %}" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
     <title>imóvel na nuvem</title>
 
 </head>
 <body>
 
-<h1>Imóvel na Nuvem ☁️</h1>
-
-<div>
-    {% if message %}
-        {% if template.status == 'success' %}
-            <h3 style="color: green;">{{ message }}</h3>
-        {% else %}
-            <h3 style="color: red;">{{ message }}</h3>
-        {% endif %}
-    {% endif %}
-</div>
-
-<div>
-    <div class="panel-body">
-        <div class="col-md-8">
-            <form id="loginForm" method="POST" class="post-form" action="/acesso/login">
-                {% csrf_token %}
-                {% if next %}
-                    <input type="hidden" name="next" value="{{ next }}" />
-                {% endif %}
-                <div class="form-row">
-                    <div class="form-group control-group">
-                        <label for="email">usu&aacute;rio</label>
-                        <div class="controls">
-                            <input type="text" id="username" name="username" class="form-control" placeholder="nome">
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group control-group">
-                        <label class="control-label" for="password">senha</label>
-                        <div class="controls">
-                            <input type="password" name="password" id="password" class="form-control" placeholder="senha">
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div style="text-align: center;">
-                        <button type="submit" class="btn btn-primary">entrar</button>
-                        <button type="button" class="btn btn-default limpar">limpar</button>
-                    </div>
-                </div>
-            </form>
+<div class="container">
+    <div class="page-header">
+        <div style="text-align: center;">
+            <h1>
+                <small>🏠</small> Imóvel na Nuvem <small>☁️ </small>
+            </h1>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            {% if message %}
+            <div class="alert alert-{{ status }} alert-dismissable fade in" style="display: block;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong>{{ message }}</strong>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-sm-4"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+
+            <div id="login">
+                <form id="loginForm" method="POST" class="post-form" action="/acesso/login">
+                    {% csrf_token %}
+                    {% if next %}
+                    <input type="hidden" name="next" value="{{ next }}"/>
+                    {% endif %}
+                    <div class="form-row">
+                        <div class="form-group control-group">
+                            <label for="email">usu&aacute;rio</label>
+                            <div class="controls">
+                                <input type="text" id="username" name="username" class="form-control"
+                                       placeholder="nome">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group control-group">
+                            <label class="control-label" for="password">senha</label>
+                            <div class="controls">
+                                <input type="password" name="password" id="password" class="form-control"
+                                       placeholder="senha">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="text-align: center;">
+                            <button type="submit" class="btn btn-primary">entrar</button>
+                            <button type="button" class="btn btn-default limpar">limpar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+    <div class="page-footer">
+        <div style="text-align: center;">
+            <h3>
+                <small>todos os direitos reservados</small>
+            </h3>
+        </div>
+    </div>
+
 </div>
 
 </body>

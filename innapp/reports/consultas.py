@@ -1,5 +1,3 @@
-import itertools
-
 from django.db import connection
 
 

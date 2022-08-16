@@ -1,31 +1,90 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="BR_PT">
 <head>
-
     <meta charset="utf-8">
     <meta charset="ISO-8859-1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
     <title>imóvel na nuvem</title>
+
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}"/>
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/app-estilo.css' %}" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 </head>
 <body>
+<!-- Responsive navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/"><small>🏠</small> Imóvel na Nuvem <small>☁️ </small></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+                class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">Gestão</a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/imovel/lista">Imóveis</a></li>
+                        <li><a class="dropdown-item" href="/inquilino/lista">Inquilinos</a></li>
+                        <li><a class="dropdown-item" href="/aluguel/lista">Aluguéis</a></li>
+                        <li><a class="dropdown-item" href="/reforma/lista">Reformas</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown2" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">Relatórios</a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/rel/aluguel/lista/mes">Aluguéis mês/ano</a></li>
+                        <li><a class="dropdown-item" href="/rel/aluguel/lista/ano">Aluguéis ano</a></li>
+                        <li><a class="dropdown-item" href="/rel/reforma/lista/mes">Reformas mês/ano</a></li>
+                        <li><a class="dropdown-item" href="/rel/reforma/lista/ano">Reformas ano</a></li>
+                        <li><a class="dropdown-item" href="/rel/administracao/lista/mes">Administração mês/ano</a></li>
+                        <li><a class="dropdown-item" href="/rel/administracao/lista/ano">Administração ano</a></li>
+                        <li><a class="dropdown-item" href="/rel/irpf/lista/mes">IR PF mês/ano</a></li>
+                        <li><a class="dropdown-item" href="/rel/irpf/lista/ano">IR PF ano</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="/acesso/logout">Sair</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-    <a href="/">início</a> | <a href="/acesso/logout">sair</a>
-
-    <div>
+<div class="row">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
         {% if template.message %}
-            {% if template.status == 'success' %}
-                <h3 style="color: green;">{{ template.message }}</h3>
-            {% else %}
-                <h3 style="color: red;">{{ template.message }}</h3>
-            {% endif %}
+        <div class="alert alert-{{ template.status }} alert-dismissable fade in" style="display: block;">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>{{ template.message }}</strong>
+        </div>
         {% endif %}
     </div>
+    <div class="col-sm-4"></div>
+</div>
 
-    {% block content %}
-    {% endblock %}
+<div class="container">
+    <div class="text-center mt-5">
+        <div id="show_content">
+            <div class="panel panel-default">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
@@ -37,6 +96,14 @@
             window.location.href = endpoint + ano;
         } catch (e) {
             console.log(`Erro ao recuperar registros por ano: ${e}`);
+        }
+    }
+
+    window.onload = function () {
+        if (window.jQuery) {
+            console.log('jQuery loaded!');
+        } else {
+            console.log('jQuery not loaded! =-(');
         }
     }
 
