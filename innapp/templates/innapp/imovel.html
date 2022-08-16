@@ -2,40 +2,47 @@
 {% load table_tags %}
 {% block content %}
 
-    <div class="panel-body">
-        <div class="col-md-8">
-            {% if template.idt_reg <= 0 %}
-                <form id="imovelForm" method="POST" class="post-form" action="/imovel/novo">
-                    {% csrf_token %}
-                    <div class="form-group control-group">
-                        {{ template.form.as_p }}
-                    </div>
-                    <div>
-                        <div style="text-align: center;">
-                            <button type="submit" class="btn btn-primary">salvar</button>
-                            <button type="button" class="btn btn-default limpar">limpar</button>
-                        </div>
-                    </div>
-                </form>
-            {% else %}
-                <form id="imovelAtualizacaoForm" method="POST" class="post-form" action="/imovel/edita/{{ template.idt_reg }}">
-                    {% csrf_token %}
-                    <div class="form-group control-group">
-                        {{ template.form.as_p }}
-                    </div>
-                    <div>
-                        <div style="text-align: center;">
-                            <button type="submit" class="btn btn-primary">salvar</button>
-                            <button type="button" class="btn btn-default limpar">limpar</button>
-                        </div>
-                    </div>
-                </form>
-            {% endif %}
-        </div>
-    </div>
+<div class="panel-heading">
+    <h3 class="panel-title">
+        Gestão de imóveis
+    </h3>
+</div>
 
-    <div>
-        {% render_table template.all %}
+<div class="panel-body">
+    <div class="col-md-8">
+        {% if template.idt_reg <= 0 %}
+        <form id="imovelForm" method="POST" class="post-form" action="/imovel/novo">
+            {% csrf_token %}
+            <div class="form-group control-group">
+                {{ template.form.as_p }}
+            </div>
+            <div>
+                <div style="text-align: center;">
+                    <button type="submit" class="btn btn-primary">salvar</button>
+                    <button type="button" class="btn btn-default limpar">limpar</button>
+                </div>
+            </div>
+        </form>
+        {% else %}
+        <form id="imovelAtualizacaoForm" method="POST" class="post-form"
+              action="/imovel/edita/{{ template.idt_reg }}">
+            {% csrf_token %}
+            <div class="form-group control-group">
+                {{ template.form.as_p }}
+            </div>
+            <div>
+                <div style="text-align: center;">
+                    <button type="submit" class="btn btn-primary">salvar</button>
+                    <button type="button" class="btn btn-default limpar">limpar</button>
+                </div>
+            </div>
+        </form>
+        {% endif %}
     </div>
+</div>
+
+<div class="form-group table-responsive">
+    {% render_table template.all %}
+</div>
 
 {% endblock %}
