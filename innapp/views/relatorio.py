@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from innapp.reports.consultas import *
-from innapp.tables import MesAnoTable, AnoTable, PendenteTable
+from innapp.tables import MesAnoTable, AnoTable, PendenteTable, ReformaImovelTable
 from innapp.utils.utilidades import recuperar_anos_disponiveis
 
 
@@ -111,6 +111,19 @@ def ir_pf_ano(request, year=datetime.date.today().year):
 
 
 @login_required(login_url='/acesso/login')
+def relacao_reformas_imoveis(request, year=datetime.date.today().year):
+    relacao = reformas_por_imovel(year)
+    return render(request,
+                  'innapp/rel-mes-ano.html',
+                  {'template': relatorio_template(ReformaImovelTable(converte_para_map(relacao, rotulo='endereco')),
+                                                  year,
+                                                  'aluguel_tbl',
+                                                  'dt_recebimento',
+                                                  'refimovel',
+                                                  'reformas por imóvel')})
+
+
+@login_required(login_url='/acesso/login')
 def relacao_alugueis_pendentes(request, year=datetime.date.today().year, month=datetime.date.today().month):
     pendentes = alugueis_pendentes(mes=month, ano=year)
 
@@ -153,5 +166,5 @@ def relatorio_template(registros, ano, tabela, coluna, tipo_registro, tipo_regis
     return template
 
 
-def converte_para_map(registros):
-    return [{'periodo': periodo, 'valor': valor} for periodo, valor in registros]
+def converte_para_map(registros, rotulo='periodo'):
+    return [{rotulo: descricao, 'valor': valor} for descricao, valor in registros]
