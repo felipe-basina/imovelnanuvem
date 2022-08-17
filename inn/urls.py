@@ -56,6 +56,8 @@ urlpatterns = [
     path('rel/irpf/lista/mes/<int:year>', relatorio.ir_pf_mes_ano),
     path('rel/irpf/lista/ano', relatorio.ir_pf_ano),
     path('rel/irpf/lista/ano/<int:year>', relatorio.ir_pf_ano),
+    path('rel/pendente/lista/mes', relatorio.relacao_alugueis_pendentes),
+    path('rel/pendente/lista/mes/<int:month>', relatorio.relacao_alugueis_pendentes),
     path('acesso/login', login_logout.login_user),
     path('acesso/logout', login_logout.logout_user),
     path('', inicial.inicio),
