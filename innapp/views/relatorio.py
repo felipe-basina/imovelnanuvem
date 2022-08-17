@@ -1,11 +1,8 @@
-import datetime
-import itertools
-
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from innapp.reports.consultas import *
-from innapp.tables import MesAnoTable, AnoTable
+from innapp.tables import MesAnoTable, AnoTable, PendenteTable
 from innapp.utils.utilidades import recuperar_anos_disponiveis
 
 
@@ -111,6 +108,21 @@ def ir_pf_ano(request, year=datetime.date.today().year):
                                                   'dt_recebimento',
                                                   'irpf',
                                                   'IR PF')})
+
+
+@login_required(login_url='/acesso/login')
+def relacao_alugueis_pendentes(request, month=datetime.date.today().month):
+    pendentes = alugueis_pendentes(mes=month)
+
+    template = {
+        'all': PendenteTable([{'endereco': endereco[0]} for endereco in pendentes]),
+        'available_months': range(1, 13),
+        'selected_month': month,
+        'type_reg': 'pendente',
+        'type_reg_pl': 'aluguéis pendentes'
+    }
+
+    return render(request, 'innapp/rel-pendentes.html', {'template': template})
 
 
 def relatorio_template(registros, ano, tabela, coluna, tipo_registro, tipo_registro_pl):
