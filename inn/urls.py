@@ -58,6 +58,8 @@ urlpatterns = [
     path('rel/irpf/lista/ano/<int:year>', relatorio.ir_pf_ano),
     path('rel/pendente/lista/mes', relatorio.relacao_alugueis_pendentes),
     path('rel/pendente/lista/<int:year>/<int:month>', relatorio.relacao_alugueis_pendentes),
+    path('rel/refimovel/lista/mes', relatorio.relacao_reformas_imoveis),
+    path('rel/refimovel/lista/mes/<int:year>', relatorio.relacao_reformas_imoveis),
     path('acesso/login', login_logout.login_user),
     path('acesso/logout', login_logout.logout_user),
     path('', inicial.inicio),
