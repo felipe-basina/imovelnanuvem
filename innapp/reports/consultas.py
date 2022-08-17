@@ -105,3 +105,15 @@ def alugueis_pendentes(mes, ano=datetime.date.today().year):
                'ORDER BY desc_endereco '
     cursor.execute(consulta, [mes, ano])
     return cursor.fetchall()
+
+
+def reformas_por_imovel(ano=datetime.date.today().year):
+    cursor = connection.cursor()
+    consulta = 'SELECT im.desc_endereco, sum(num_reforma) AS total ' \
+               'FROM reforma_tbl ref ' \
+               'INNER JOIN imovel_tbl im ON ref.idt_imovel = im.idt_imovel ' \
+               'WHERE EXTRACT(year from dt_reforma) = %s ' \
+               'GROUP BY im.desc_endereco, EXTRACT(year from dt_reforma) ' \
+               'ORDER BY im.desc_endereco '
+    cursor.execute(consulta, [ano])
+    return cursor.fetchall()
