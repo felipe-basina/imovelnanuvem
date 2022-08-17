@@ -11,11 +11,24 @@
 
 <div class="panel-body">
     <div class="col-md-4 selecao-ano">
-        <label for="ano_aluguel">Selecione o mês para visualizar {{ template.type_reg_pl }}</label>
+        <label for="ano_aluguel">Selecione o ano/mês para visualizar {{ template.type_reg_pl }}</label>
     </div>
+
     <div class="col-md-2">
-        <select name="ano_registro" class="form-control"
-                onchange="javascript:recuperarRegistroPorAno('/rel/{{template.type_reg}}/lista/mes/', this.value);">
+        <select name="ano_registro" class="form-control">
+            {% for ano in template.available_years %}
+                <!-- Forçando a comparação entre valores inteiros -->
+                {% if template.selected_year|add:0 == ano|add:0 %}
+                    <option value="{{ano}}" selected>{{ano}}</option>
+                {% else %}
+                    <option value="{{ano}}">{{ano}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <select name="mes_registro" class="form-control">
             {% for mes in template.available_months %}
                 <!-- Forçando a comparação entre valores inteiros -->
                 {% if template.selected_month|add:0 == mes|add:0 %}
@@ -26,10 +39,26 @@
             {% endfor %}
         </select>
     </div>
+
+    <div class="col-md-1">
+        <button onclick="javascript:recuperarPendentes();" class="btn btn-primary">consultar</button>
+    </div>
+
+    <div class="col-md-3"></div>
 </div>
 
 <div>
     {% render_table template.all %}
 </div>
+
+<script>
+
+    function recuperarPendentes() {
+        let ano = document.getElementsByName("ano_registro")[0].value;
+        let mes = document.getElementsByName("mes_registro")[0].value;
+        window.location.href = '/rel/pendente/lista/' + ano + '/' + mes;
+    }
+
+</script>
 
 {% endblock %}
