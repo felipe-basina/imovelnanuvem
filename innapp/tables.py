@@ -64,4 +64,9 @@ class AnoTable(Table):
 
 
 class PendenteTable(Table):
-    pendente = Column(header='endereço', field='endereco')
+    pendente = Column(header='imóvel', field='endereco')
+
+
+class ReformaImovelTable(Table):
+    endereco = Column(header='imóvel', field='endereco')
+    valor = Column(header='valor', field='valor')
