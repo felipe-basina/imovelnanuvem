@@ -111,11 +111,20 @@ def ir_pf_ano(request, year=datetime.date.today().year):
 
 
 @login_required(login_url='/acesso/login')
-def relacao_alugueis_pendentes(request, month=datetime.date.today().month):
-    pendentes = alugueis_pendentes(mes=month)
+def relacao_alugueis_pendentes(request, year=datetime.date.today().year, month=datetime.date.today().month):
+    pendentes = alugueis_pendentes(mes=month, ano=year)
+
+    current_year = datetime.date.today().year
+    available_years = recuperar_anos_disponiveis('aluguel_tbl', 'dt_recebimento')
+
+    # Verifica se o ano atual esta presente na lista, caso contrario, adiciona
+    if int(current_year) not in available_years:
+        available_years.insert(0, int(current_year))
 
     template = {
         'all': PendenteTable([{'endereco': endereco[0]} for endereco in pendentes]),
+        'available_years': available_years,
+        'selected_year': year,
         'available_months': range(1, 13),
         'selected_month': month,
         'type_reg': 'pendente',
