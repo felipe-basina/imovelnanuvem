@@ -61,3 +61,7 @@ class MesAnoTable(Table):
 class AnoTable(Table):
     periodo = Column(header='ano', field='periodo')
     valor = Column(header='valor', field='valor')
+
+
+class PendenteTable(Table):
+    pendente = Column(header='endereço', field='endereco')

@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-=0$msg+q(r%-86-g3_fc+vwtfgnfd+55=ipmm(ce)m_m!3=8pq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['imovelnanuvem.herokuapp.com']
 CSRF_TRUSTED_ORIGINS = ['https://imovelnanuvem.herokuapp.com']

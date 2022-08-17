@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import connection
 
 
@@ -88,3 +90,18 @@ def consulta_ano(tabela, coluna_data, coluna_valor, inner_join=False):
 
 def inquilino_inner_join_clause():
     return ' INNER JOIN inquilino_tbl inq ON _tabela_.idt_inquilino = inq.idt_inquilino and inq.desc_tipo = \'PF\' '
+
+
+def alugueis_pendentes(mes, ano=datetime.date.today().year):
+    cursor = connection.cursor()
+    consulta = 'SELECT desc_endereco FROM imovel_tbl ' \
+               'WHERE desc_endereco NOT IN ( ' \
+               'SELECT IM.DESC_ENDERECO FROM ALUGUEL_TBL AL ' \
+               'INNER JOIN IMOVEL_TBL IM ON IM.IDT_IMOVEL = AL.IDT_IMOVEL ' \
+               'WHERE EXTRACT(MONTH FROM DT_RECEBIMENTO) = %s ' \
+               'AND EXTRACT(YEAR FROM DT_RECEBIMENTO) = %s ' \
+               'ORDER BY AL.DT_RECEBIMENTO DESC, IM.desc_endereco )' \
+               'AND desc_status = \'ATIVO\' ' \
+               'ORDER BY desc_endereco '
+    cursor.execute(consulta, [mes, ano])
+    return cursor.fetchall()
