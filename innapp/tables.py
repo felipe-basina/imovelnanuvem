@@ -8,8 +8,8 @@ class ImovelTable(Table):
     dt_criacao = DatetimeColumn(header='dt. criação', field='dt_criacao', format='%d/%m/%Y %H:%M')
     dt_atualizacao = DatetimeColumn(header='dt. atualização', field='dt_atualizacao', format='%d/%m/%Y %H:%M')
     acoes = LinkColumn(header='ações', delimiter=' | ', sortable=False, links=[
-        Link(text='editar', viewname='editar_imovel', args=[A('pk')]),
-        Link(text='desativar', viewname='desativar_imovel', args=[A('pk')])
+        Link(text='', viewname='editar_imovel', args=[A('pk')], attrs={'class': 'fa fa-pencil-square-o fa-fw'}),
+        Link(text='', viewname='desativar_imovel', args=[A('pk')], attrs={'class': 'fa fa-trash-o fa-fw'})
     ])
 
 
@@ -22,8 +22,8 @@ class InquilinoTable(Table):
     dt_criacao = DatetimeColumn(header='dt. criação', field='dt_criacao', format='%d/%m/%Y %H:%M')
     dt_atualizacao = DatetimeColumn(header='dt. atualização', field='dt_atualizacao', format='%d/%m/%Y %H:%M')
     acoes = LinkColumn(header='ações', delimiter=' | ', sortable=False, links=[
-        Link(text='editar', viewname='editar_inquilino', args=[A('pk')]),
-        Link(text='desativar', viewname='desativar_inquilino', args=[A('pk')])
+        Link(text='', viewname='editar_inquilino', args=[A('pk')], attrs={'class': 'fa fa-pencil-square-o fa-fw'}),
+        Link(text='', viewname='desativar_inquilino', args=[A('pk')], attrs={'class': 'fa fa-trash-o fa-fw'})
     ])
 
 
@@ -37,7 +37,7 @@ class AluguelTable(Table):
     dt_criacao = DatetimeColumn(header='dt. criação', field='dt_criacao', format='%d/%m/%Y %H:%M')
     dt_atualizacao = DatetimeColumn(header='dt. atualização', field='dt_atualizacao', format='%d/%m/%Y %H:%M')
     acoes = LinkColumn(header='ações', sortable=False, links=[
-        Link(text='editar', viewname='editar_aluguel', args=[A('pk')])
+        Link(text='', viewname='editar_aluguel', args=[A('pk')], attrs={'class': 'fa fa-pencil-square-o fa-fw'})
     ])
 
 
@@ -49,7 +49,7 @@ class ReformaTable(Table):
     dt_criacao = DatetimeColumn(header='dt. criação', field='dt_criacao', format='%d/%m/%Y %H:%M')
     dt_atualizacao = DatetimeColumn(header='dt. atualização', field='dt_atualizacao', format='%d/%m/%Y %H:%M')
     acoes = LinkColumn(header='ações', sortable=False, links=[
-        Link(text='editar', viewname='editar_reforma', args=[A('pk')])
+        Link(text='', viewname='editar_reforma', args=[A('pk')], attrs={'class': 'fa fa-pencil-square-o fa-fw'})
     ])
 
 
