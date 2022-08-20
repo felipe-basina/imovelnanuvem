@@ -64,7 +64,8 @@ class AnoTable(Table):
 
 
 class PendenteTable(Table):
-    pendente = Column(header='imóvel', field='endereco', header_attrs={'style': 'text-align:center;'})
+    vencimento = Column(header='dia vencimento', field='vencimento', header_attrs={'style': 'text-align:center;'})
+    endereco = Column(header='imóvel', field='endereco', header_attrs={'style': 'text-align:center;'})
 
 
 class ReformaImovelTable(Table):

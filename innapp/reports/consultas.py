@@ -94,15 +94,22 @@ def inquilino_inner_join_clause():
 
 def alugueis_pendentes(mes, ano=datetime.date.today().year):
     cursor = connection.cursor()
-    consulta = 'SELECT desc_endereco FROM imovel_tbl ' \
-               'WHERE desc_endereco NOT IN ( ' \
-               'SELECT IM.DESC_ENDERECO FROM ALUGUEL_TBL AL ' \
-               'INNER JOIN IMOVEL_TBL IM ON IM.IDT_IMOVEL = AL.IDT_IMOVEL ' \
-               'WHERE EXTRACT(MONTH FROM DT_RECEBIMENTO) = %s ' \
-               'AND EXTRACT(YEAR FROM DT_RECEBIMENTO) = %s ' \
-               'ORDER BY AL.DT_RECEBIMENTO DESC, IM.desc_endereco )' \
-               'AND desc_status = \'ATIVO\' ' \
-               'ORDER BY desc_endereco '
+    consulta = 'SELECT max(it.num_vencimento), im.desc_endereco FROM imovel_tbl im ' \
+               'INNER JOIN aluguel_tbl a on im.idt_imovel = a.idt_imovel  ' \
+               'INNER JOIN inquilino_tbl it on a.idt_inquilino = it.idt_inquilino ' \
+               'WHERE im.desc_endereco in ( ' \
+               ' SELECT desc_endereco FROM imovel_tbl ' \
+               ' WHERE desc_endereco NOT IN ( ' \
+               '    SELECT IM.DESC_ENDERECO FROM ALUGUEL_TBL AL ' \
+               '    INNER JOIN IMOVEL_TBL IM ON IM.IDT_IMOVEL = AL.IDT_IMOVEL ' \
+               '    WHERE EXTRACT(MONTH FROM DT_RECEBIMENTO) = %s ' \
+               '    AND EXTRACT(YEAR FROM DT_RECEBIMENTO) = %s ' \
+               '    ORDER BY AL.DT_RECEBIMENTO DESC, IM.desc_endereco ' \
+               '    ) ' \
+               '    AND desc_status = \'ATIVO\' ' \
+               ') ' \
+               'GROUP BY it.num_vencimento, im.desc_endereco ' \
+               'ORDER BY it.num_vencimento, im.desc_endereco '
     cursor.execute(consulta, [mes, ano])
     return cursor.fetchall()
 
