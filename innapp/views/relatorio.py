@@ -135,7 +135,7 @@ def relacao_alugueis_pendentes(request, year=datetime.date.today().year, month=d
         available_years.insert(0, int(current_year))
 
     template = {
-        'all': PendenteTable([{'endereco': endereco[0]} for endereco in pendentes]),
+        'all': PendenteTable([{'vencimento': vencimento, 'endereco': endereco} for vencimento, endereco in pendentes]),
         'available_years': available_years,
         'selected_year': year,
         'available_months': range(1, 13),
