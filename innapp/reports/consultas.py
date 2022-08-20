@@ -94,7 +94,7 @@ def inquilino_inner_join_clause():
 
 def alugueis_pendentes(mes, ano=datetime.date.today().year):
     cursor = connection.cursor()
-    consulta = 'SELECT max(it.num_vencimento), im.desc_endereco FROM imovel_tbl im ' \
+    consulta = 'SELECT max(it.num_vencimento) as vencimento, im.desc_endereco FROM imovel_tbl im ' \
                'INNER JOIN aluguel_tbl a on im.idt_imovel = a.idt_imovel  ' \
                'INNER JOIN inquilino_tbl it on a.idt_inquilino = it.idt_inquilino ' \
                'WHERE im.desc_endereco in ( ' \
@@ -108,8 +108,8 @@ def alugueis_pendentes(mes, ano=datetime.date.today().year):
                '    ) ' \
                '    AND desc_status = \'ATIVO\' ' \
                ') ' \
-               'GROUP BY it.num_vencimento, im.desc_endereco ' \
-               'ORDER BY it.num_vencimento, im.desc_endereco '
+               'GROUP BY im.desc_endereco ' \
+               'ORDER BY vencimento, im.desc_endereco '
     cursor.execute(consulta, [mes, ano])
     return cursor.fetchall()
 
