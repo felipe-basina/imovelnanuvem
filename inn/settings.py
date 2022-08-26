@@ -122,7 +122,7 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 STATIC_ROOT = Path(BASE_DIR).joinpath('staticfiles')
-STATICFILES_DIRS = (Path(BASE_DIR).joinpath('static'),)
+STATICFILES_DIRS = (Path(BASE_DIR).joinpath('innapp/static'),)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
