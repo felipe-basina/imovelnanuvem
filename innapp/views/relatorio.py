@@ -125,6 +125,7 @@ def relacao_reformas_imoveis(request, year=datetime.date.today().year):
 
 @login_required(login_url='/acesso/login')
 def relacao_alugueis_pendentes(request, year=datetime.date.today().year, month=datetime.date.today().month):
+    print('>>>> default month {0}'.format(month))
     pendentes = alugueis_pendentes(mes=month, ano=year)
 
     current_year = datetime.date.today().year
