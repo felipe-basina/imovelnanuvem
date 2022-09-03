@@ -7,7 +7,10 @@ from innapp.utils.utilidades import recuperar_anos_disponiveis
 
 
 @login_required(login_url='/acesso/login')
-def aluguel_mes_ano(request, year=datetime.date.today().year):
+def aluguel_mes_ano(request, year=None):
+    if year is None:
+        year = datetime.date.today().year
+
     alugueis = recuperar_aluguel_mes_ano(year)
     return render(request,
                   'innapp/rel-mes-ano.html',
@@ -20,7 +23,10 @@ def aluguel_mes_ano(request, year=datetime.date.today().year):
 
 
 @login_required(login_url='/acesso/login')
-def aluguel_ano(request, year=datetime.date.today().year):
+def aluguel_ano(request, year=None):
+    if year is None:
+        year = datetime.date.today().year
+
     alugueis = recuperar_aluguel_ano()
     return render(request,
                   'innapp/rel-ano.html',
@@ -33,7 +39,10 @@ def aluguel_ano(request, year=datetime.date.today().year):
 
 
 @login_required(login_url='/acesso/login')
-def reforma_mes_ano(request, year=datetime.date.today().year):
+def reforma_mes_ano(request, year=None):
+    if year is None:
+        year = datetime.date.today().year
+
     reformas = recuperar_reforma_mes_ano(year)
     return render(request,
                   'innapp/rel-mes-ano.html',
@@ -46,7 +55,10 @@ def reforma_mes_ano(request, year=datetime.date.today().year):
 
 
 @login_required(login_url='/acesso/login')
-def reforma_ano(request, year=datetime.date.today().year):
+def reforma_ano(request, year=None):
+    if year is None:
+        year = datetime.date.today().year
+
     reformas = recuperar_reforma_ano()
     return render(request,
                   'innapp/rel-ano.html',
@@ -59,7 +71,10 @@ def reforma_ano(request, year=datetime.date.today().year):
 
 
 @login_required(login_url='/acesso/login')
-def administracao_mes_ano(request, year=datetime.date.today().year):
+def administracao_mes_ano(request, year=None):
+    if year is None:
+        year = datetime.date.today().year
+
     administracao = recuperar_administracao_mes_ano(year)
     return render(request,
                   'innapp/rel-mes-ano.html',
@@ -72,7 +87,10 @@ def administracao_mes_ano(request, year=datetime.date.today().year):
 
 
 @login_required(login_url='/acesso/login')
-def administracao_ano(request, year=datetime.date.today().year):
+def administracao_ano(request, year=None):
+    if year is None:
+        year = datetime.date.today().year
+
     administracao = recuperar_administracao_ano()
     return render(request,
                   'innapp/rel-ano.html',
@@ -85,7 +103,10 @@ def administracao_ano(request, year=datetime.date.today().year):
 
 
 @login_required(login_url='/acesso/login')
-def ir_pf_mes_ano(request, year=datetime.date.today().year):
+def ir_pf_mes_ano(request, year=None):
+    if year is None:
+        year = datetime.date.today().year
+
     ir_pf = recuperar_ir_pf_mes_ano(year)
     return render(request,
                   'innapp/rel-mes-ano.html',
@@ -98,7 +119,10 @@ def ir_pf_mes_ano(request, year=datetime.date.today().year):
 
 
 @login_required(login_url='/acesso/login')
-def ir_pf_ano(request, year=datetime.date.today().year):
+def ir_pf_ano(request, year=None):
+    if year is None:
+        year = datetime.date.today().year
+
     ir_pf = recuperar_ir_pf_ano()
     return render(request,
                   'innapp/rel-ano.html',
@@ -111,7 +135,10 @@ def ir_pf_ano(request, year=datetime.date.today().year):
 
 
 @login_required(login_url='/acesso/login')
-def relacao_reformas_imoveis(request, year=datetime.date.today().year):
+def relacao_reformas_imoveis(request, year=None):
+    if year is None:
+        year = datetime.date.today().year
+
     relacao = reformas_por_imovel(year)
     return render(request,
                   'innapp/rel-mes-ano.html',
@@ -124,8 +151,12 @@ def relacao_reformas_imoveis(request, year=datetime.date.today().year):
 
 
 @login_required(login_url='/acesso/login')
-def relacao_alugueis_pendentes(request, year=datetime.date.today().year, month=datetime.date.today().month):
-    print('>>>> default month {0}'.format(month))
+def relacao_alugueis_pendentes(request, year=None, month=None):
+    if year is None:
+        year = datetime.date.today().year
+    if month is None:
+        month = datetime.date.today().month
+
     pendentes = alugueis_pendentes(mes=month, ano=year)
 
     current_year = datetime.date.today().year
