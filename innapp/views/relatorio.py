@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from innapp.reports.consultas import *
-from innapp.tables import MesAnoTable, AnoTable, PendenteTable, ReformaImovelTable
+from innapp.tables import MesAnoTable, AnoTable, PendenteTable, ReformaImovelTable, AluguelImovelTable
 from innapp.utils.utilidades import recuperar_anos_disponiveis
 
 
@@ -177,6 +177,22 @@ def relacao_alugueis_pendentes(request, year=None, month=None):
     }
 
     return render(request, 'innapp/rel-pendentes.html', {'template': template})
+
+
+@login_required(login_url='/acesso/login')
+def aluguel_por_imovel(request, year=None):
+    if year is None:
+        year = datetime.date.today().year
+
+    relacao = alugueis_por_imovel(year)
+    return render(request,
+                  'innapp/rel-mes-ano.html',
+                  {'template': relatorio_template(AluguelImovelTable(converte_para_map(relacao, rotulo='endereco')),
+                                                  year,
+                                                  'aluguel_tbl',
+                                                  'dt_recebimento',
+                                                  'alugimovel',
+                                                  'aluguéis por imóvel')})
 
 
 def relatorio_template(registros, ano, tabela, coluna, tipo_registro, tipo_registro_pl):
