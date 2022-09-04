@@ -124,3 +124,14 @@ def reformas_por_imovel(ano=datetime.date.today().year):
                'ORDER BY im.desc_endereco '
     cursor.execute(consulta, [ano])
     return cursor.fetchall()
+
+
+def alugueis_por_imovel(ano):
+    cursor = connection.cursor()
+    consulta = 'SELECT it.desc_endereco, sum(al.num_aluguel) AS total FROM aluguel_tbl al ' \
+               'INNER JOIN imovel_tbl it on al.idt_imovel = it.idt_imovel ' \
+               'WHERE EXTRACT(YEAR FROM al.dt_recebimento) = %s ' \
+               'GROUP BY it.desc_endereco ' \
+               'ORDER BY it.desc_endereco '
+    cursor.execute(consulta, [ano])
+    return cursor.fetchall()

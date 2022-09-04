@@ -60,6 +60,8 @@ urlpatterns = [
     path('rel/pendente/lista/<int:year>/<int:month>', relatorio.relacao_alugueis_pendentes),
     path('rel/refimovel/lista/mes', relatorio.relacao_reformas_imoveis),
     path('rel/refimovel/lista/mes/<int:year>', relatorio.relacao_reformas_imoveis),
+    path('rel/alugimovel/lista/mes', relatorio.aluguel_por_imovel),
+    path('rel/alugimovel/lista/mes/<int:year>', relatorio.aluguel_por_imovel),
     path('acesso/login', login_logout.login_user),
     path('acesso/logout', login_logout.logout_user),
     path('', inicial.inicio),
