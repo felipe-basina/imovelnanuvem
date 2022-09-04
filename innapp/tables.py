@@ -71,3 +71,8 @@ class PendenteTable(Table):
 class ReformaImovelTable(Table):
     endereco = Column(header='imóvel', field='endereco', header_attrs={'style': 'text-align:center;'})
     valor = Column(header='valor', field='valor', header_attrs={'style': 'text-align:center;'})
+
+
+class AluguelImovelTable(Table):
+    endereco = Column(header='imóvel', field='endereco', header_attrs={'style': 'text-align:center;'})
+    valor = Column(header='valor', field='valor', header_attrs={'style': 'text-align:center;'})
