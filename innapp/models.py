@@ -90,7 +90,7 @@ class InquilinoForm(ModelForm):
             'dt_inicio': forms.DateInput(format='%d/%m/%Y',
                                          attrs={'class': 'form-control', 'type': 'date',
                                                 'placeholder': 'Selecione uma data'}),
-            'dt_fim': forms.DateInput(format=('%d/%m/%Y'),
+            'dt_fim': forms.DateInput(format='%d/%m/%Y',
                                       attrs={'class': 'form-control', 'type': 'date',
                                              'placeholder': 'Selecione uma data'}),
             'num_vencimento': forms.Select(choices=DIAS_OPCOES, attrs={'class': 'form-control tamanho_caixa', }),
@@ -121,6 +121,7 @@ class AluguelTbl(models.Model):
 
 
 MESES_OPCOES = [(str(i), str(i)) for i in range(1, 13)]
+
 
 class AluguelForm(ModelForm):
     class Meta:
