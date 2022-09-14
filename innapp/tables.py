@@ -31,6 +31,7 @@ class AluguelTable(Table):
     idt_imovel = Column(header='imóvel', field='idt_imovel', header_attrs={'style': 'text-align:center;'})
     idt_inquilino = Column(header='inquilino', field='idt_inquilino', header_attrs={'style': 'text-align:center;'})
     dt_recebimento = DatetimeColumn(header='dt. recebimento', field='dt_recebimento', format='%d/%m/%Y', header_attrs={'style': 'text-align:center;'})
+    mes_referencia = Column(header='mês referência', field='mes_referencia', header_attrs={'style': 'text-align:center;'})
     num_aluguel = Column(header='aluguel', field='num_aluguel', header_attrs={'style': 'text-align:center;'})
     num_administracao = Column(header='administração', field='num_administracao', header_attrs={'style': 'text-align:center;'})
     num_acordo = Column(header='acordo', field='num_acordo', header_attrs={'style': 'text-align:center;'})

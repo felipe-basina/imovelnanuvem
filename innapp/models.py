@@ -112,6 +112,7 @@ class AluguelTbl(models.Model):
     idt_inquilino = models.ForeignKey(
         'InquilinoTbl', models.DO_NOTHING, db_column='idt_inquilino', blank=True, null=True
     )
+    mes_referencia = models.IntegerField(default=1)
 
     class Meta:
         managed = True
@@ -119,14 +120,17 @@ class AluguelTbl(models.Model):
         verbose_name = ('Aluguel')
 
 
+MESES_OPCOES = [(str(i), str(i)) for i in range(1, 13)]
+
 class AluguelForm(ModelForm):
     class Meta:
         model = AluguelTbl
-        fields = ['idt_imovel', 'idt_inquilino', 'dt_recebimento', 'num_aluguel', 'num_administracao', 'num_acordo']
+        fields = ['idt_imovel', 'idt_inquilino', 'dt_recebimento', 'mes_referencia', 'num_aluguel', 'num_administracao', 'num_acordo']
         labels = {
             'idt_imovel': 'Imóvel',
             'idt_inquilino': 'Inquilino',
             'dt_recebimento': 'Data recebimento',
+            'mes_referencia': 'Mês referência',
             'num_aluguel': 'Valor aluguel',
             'num_administracao': 'Valor administração',
             'num_acordo': 'Valor acordo',
@@ -137,6 +141,7 @@ class AluguelForm(ModelForm):
             'dt_recebimento': forms.DateInput(format='%d/%m/%Y',
                                               attrs={'class': 'form-control', 'type': 'date',
                                                      'placeholder': 'Selecione uma data'}),
+            'mes_referencia': forms.Select(choices=MESES_OPCOES, attrs={'class': 'form-control tamanho_caixa', }),
             'num_aluguel': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.01"}),
             'num_administracao': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.01"}),
             'num_acordo': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.01"}),

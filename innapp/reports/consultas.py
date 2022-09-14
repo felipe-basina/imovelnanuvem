@@ -102,7 +102,7 @@ def alugueis_pendentes(mes, ano=datetime.date.today().year):
                ' WHERE desc_endereco NOT IN ( ' \
                '    SELECT IM.DESC_ENDERECO FROM ALUGUEL_TBL AL ' \
                '    INNER JOIN IMOVEL_TBL IM ON IM.IDT_IMOVEL = AL.IDT_IMOVEL ' \
-               '    WHERE EXTRACT(MONTH FROM DT_RECEBIMENTO) = %s ' \
+               '    WHERE AL.mes_referencia = %s ' \
                '    AND EXTRACT(YEAR FROM DT_RECEBIMENTO) = %s ' \
                '    ORDER BY AL.DT_RECEBIMENTO DESC, IM.desc_endereco ' \
                '    ) ' \

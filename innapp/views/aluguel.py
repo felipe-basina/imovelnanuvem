@@ -61,6 +61,7 @@ def aluguel_por_id(request, idt):
             'idt_inquilino': aluguel.idt_inquilino,
             'dt_recebimento': dt_recebimento,
             'num_aluguel': aluguel.num_aluguel,
+            'mes_referencia': aluguel.mes_referencia,
             'num_administracao': aluguel.num_administracao,
             'num_acordo': aluguel.num_acordo,
         })
@@ -90,6 +91,7 @@ def aluguel_edita(request, idt):
             idt_imovel=aluguel.idt_imovel,
             idt_inquilino=aluguel.idt_inquilino,
             dt_recebimento=aluguel.dt_recebimento,
+            mes_referencia=aluguel.mes_referencia,
             num_aluguel=aluguel.num_aluguel,
             num_administracao=aluguel.num_administracao,
             num_acordo=aluguel.num_acordo,
