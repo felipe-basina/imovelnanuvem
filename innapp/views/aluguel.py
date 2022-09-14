@@ -122,7 +122,9 @@ def aluguel_template(idt_reg=0, ano=datetime.date.today().year):
 
     aluguel_map = {
         'all': AluguelTable(all),
-        'form': AluguelForm(),
+        'form': AluguelForm(initial={
+            'mes_referencia': datetime.date.today().month
+        }),
         'idt_reg': idt_reg,
         'available_years': available_years,
         'selected_year': ano
