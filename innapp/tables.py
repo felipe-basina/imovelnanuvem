@@ -69,6 +69,11 @@ class PendenteTable(Table):
     endereco = Column(header='imóvel', field='endereco', header_attrs={'style': 'text-align:center;'})
 
 
+class PendenteAnoTable(Table):
+    endereco = Column(header='imóvel', field='endereco', header_attrs={'style': 'text-align:center;'})
+    meses = Column(header='meses referência', field='meses', header_attrs={'style': 'text-align:center;'})
+
+
 class ReformaImovelTable(Table):
     endereco = Column(header='imóvel', field='endereco', header_attrs={'style': 'text-align:center;'})
     valor = Column(header='valor', field='valor', header_attrs={'style': 'text-align:center;'})
