@@ -190,10 +190,11 @@ def relacao_alugueis_pendentes_ano(request, year=None):
     print(imoveis)
 
     IMOVEL_ID_INDEX = 0
+    MES_REFERENCIA_INDEX = 2
     relacao = {}
     for imovel_id, desc_endereco in imoveis:
         relacao[desc_endereco] = []
-        alugueis_mes_referencia = [al for al in alugueis_ano if al[IMOVEL_ID_INDEX] == imovel_id]
+        alugueis_mes_referencia = [al[MES_REFERENCIA_INDEX] for al in alugueis_ano if al[IMOVEL_ID_INDEX] == imovel_id]
         print(alugueis_mes_referencia)
         for mes in range(1, 13):
             if mes not in alugueis_mes_referencia:
@@ -202,7 +203,7 @@ def relacao_alugueis_pendentes_ano(request, year=None):
     print('relacao: {0}'.format(relacao))
 
     relacao_datatable = PendenteAnoTable(
-        [{'endereco': endereco, 'meses': meses} for endereco, meses in relacao if len(meses) > 0]
+        [{'endereco': key, 'meses': relacao[key]} for key in relacao if len(relacao[key]) > 0]
     )
 
     return render(request,
