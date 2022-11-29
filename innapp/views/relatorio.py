@@ -187,9 +187,7 @@ def relacao_alugueis_pendentes_ano(request, year=None):
         year = datetime.date.today().year
 
     alugueis_ano = alugueis_recebidos_ano(year)
-    print(alugueis_ano)
     imoveis = {(imovel_id, desc_endereco) for imovel_id, desc_endereco, _ in alugueis_ano}
-    print(imoveis)
 
     IMOVEL_ID_INDEX = 0
     MES_REFERENCIA_INDEX = 2
@@ -197,12 +195,9 @@ def relacao_alugueis_pendentes_ano(request, year=None):
     for imovel_id, desc_endereco in imoveis:
         relacao[desc_endereco] = []
         alugueis_mes_referencia = [al[MES_REFERENCIA_INDEX] for al in alugueis_ano if al[IMOVEL_ID_INDEX] == imovel_id]
-        print(alugueis_mes_referencia)
         for mes in range(1, 13):
             if mes not in alugueis_mes_referencia:
                 relacao[desc_endereco].append(mes)
-
-    print('relacao: {0}'.format(relacao))
 
     # Ordena e transforma em dict novamente
     relacao = dict(OrderedDict(sorted(relacao.items())))
