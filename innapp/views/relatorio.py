@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from innapp.reports.consultas import *
-from innapp.tables import MesAnoTable, AnoTable, PendenteTable, ReformaImovelTable, AluguelImovelTable
+from innapp.tables import MesAnoTable, AnoTable, PendenteTable, ReformaImovelTable, AluguelImovelTable, PendenteAnoTable
 from innapp.utils.utilidades import recuperar_anos_disponiveis
 
 
@@ -177,6 +177,41 @@ def relacao_alugueis_pendentes(request, year=None, month=None):
     }
 
     return render(request, 'innapp/rel-pendentes.html', {'template': template})
+
+
+@login_required(login_url='/acesso/login')
+def relacao_alugueis_pendentes_ano(request, year=None):
+    if year is None:
+        year = datetime.date.today().year
+
+    alugueis_ano = alugueis_recebidos_ano(year)
+    print(alugueis_ano)
+    imoveis = [(imovel_id, desc_endereco) for imovel_id, desc_endereco, _ in alugueis_ano]
+    print(imoveis)
+
+    relacao = {}
+    for imovel_id, desc_endereco in imoveis:
+        relacao[desc_endereco] = []
+        alugueis_mes_referencia = [al for al in alugueis_ano if al['idt_imovel'] == imovel_id]
+        print(alugueis_mes_referencia)
+        for mes in range(1, 13):
+            if mes not in alugueis_mes_referencia:
+                relacao[desc_endereco].append(mes)
+
+    print('relacao: {0}'.format(relacao))
+
+    relacao_datatable = PendenteAnoTable(
+        [{'endereco': endereco, 'meses': meses} for endereco, meses in relacao if len(meses) > 0]
+    )
+
+    return render(request,
+                  'innapp/rel-ano.html',
+                  {'template': relatorio_template(relacao_datatable,
+                                                  year,
+                                                  'aluguel_tbl',
+                                                  'dt_recebimento',
+                                                  'pendente',
+                                                  'aluguéis pendentes ano')})
 
 
 @login_required(login_url='/acesso/login')
