@@ -186,13 +186,14 @@ def relacao_alugueis_pendentes_ano(request, year=None):
 
     alugueis_ano = alugueis_recebidos_ano(year)
     print(alugueis_ano)
-    imoveis = [(imovel_id, desc_endereco) for imovel_id, desc_endereco, _ in alugueis_ano]
+    imoveis = {(imovel_id, desc_endereco) for imovel_id, desc_endereco, _ in alugueis_ano}
     print(imoveis)
 
+    IMOVEL_ID_INDEX = 0
     relacao = {}
     for imovel_id, desc_endereco in imoveis:
         relacao[desc_endereco] = []
-        alugueis_mes_referencia = [al for al in alugueis_ano if al['idt_imovel'] == imovel_id]
+        alugueis_mes_referencia = [al for al in alugueis_ano if al[IMOVEL_ID_INDEX] == imovel_id]
         print(alugueis_mes_referencia)
         for mes in range(1, 13):
             if mes not in alugueis_mes_referencia:
