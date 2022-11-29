@@ -135,3 +135,16 @@ def alugueis_por_imovel(ano):
                'ORDER BY it.desc_endereco '
     cursor.execute(consulta, [ano])
     return cursor.fetchall()
+
+
+def alugueis_recebidos_ano(ano):
+    cursor = connection.cursor()
+    consulta = 'SELECT al.idt_imovel, it.desc_endereco, al.mes_referencia FROM aluguel_tbl al ' \
+               'INNER JOIN imovel_tbl it ON it.idt_imovel = al.idt_imovel ' \
+               'WHERE EXTRACT(YEAR FROM al.dt_recebimento) = %s ' \
+               'AND al.idt_imovel IN (' \
+               '    SELECT idt_imovel FROM imovel_tbl WHERE desc_status = \'ATIVO\'' \
+               ') ' \
+               'ORDER BY al.idt_imovel, al.mes_referencia'
+    cursor.execute(consulta, [ano])
+    return cursor.fetchall()
