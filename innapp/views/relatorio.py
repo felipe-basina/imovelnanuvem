@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
@@ -202,17 +204,19 @@ def relacao_alugueis_pendentes_ano(request, year=None):
 
     print('relacao: {0}'.format(relacao))
 
+    # Ordena e transforma em dict novamente
+    relacao = dict(OrderedDict(sorted(relacao.items())))
     relacao_datatable = PendenteAnoTable(
         [{'endereco': key, 'meses': relacao[key]} for key in relacao if len(relacao[key]) > 0]
     )
 
     return render(request,
-                  'innapp/rel-ano.html',
+                  'innapp/rel-mes-ano.html',
                   {'template': relatorio_template(relacao_datatable,
                                                   year,
                                                   'aluguel_tbl',
                                                   'dt_recebimento',
-                                                  'pendente',
+                                                  'pendano',
                                                   'aluguéis pendentes ano')})
 
 
