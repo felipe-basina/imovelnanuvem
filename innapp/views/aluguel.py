@@ -110,7 +110,9 @@ def aluguel_edita(request, idt):
     return render(request, 'innapp/aluguel.html', {'template': aluguel_map})
 
 
-def aluguel_template(idt_reg=0, ano=datetime.date.today().year):
+def aluguel_template(idt_reg=0, ano=None):
+    if ano is None:
+        ano = datetime.date.today().year
     all = AluguelTbl.objects.filter(dt_recebimento__year=ano).order_by('-dt_recebimento', '-idt_aluguel')
 
     current_year = datetime.date.today().year

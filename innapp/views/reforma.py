@@ -104,7 +104,9 @@ def reforma_edita(request, idt):
     return render(request, 'innapp/reforma.html', {'template': reforma_dependencias(reforma_map)})
 
 
-def reforma_template(idt_reg=0, ano=datetime.date.today().year):
+def reforma_template(idt_reg=0, ano=None):
+    if ano is None:
+        ano = datetime.date.today().year
     all = ReformaTbl.objects.filter(dt_reforma__year=ano).order_by('-dt_reforma', '-idt_imovel')
 
     current_year = datetime.date.today().year
