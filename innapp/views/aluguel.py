@@ -8,7 +8,8 @@ from .imovel import recuperar_imoveis
 from .inquilino import recuperar_inquilinos
 from ..models import AluguelTbl, AluguelForm
 from ..tables import AluguelTable
-from ..utils.utilidades import ajusta_para_apresentacao, recuperar_anos_disponiveis
+from ..utils.utilidades import ajusta_para_apresentacao, recuperar_anos_disponiveis, ONSISDESPENDA_URL, \
+    integracao_onsisdespenda
 
 
 @login_required(login_url='/acesso/login')
@@ -32,6 +33,8 @@ def aluguel_novo(request):
         aluguel.dt_criacao = datetime.datetime.utcnow().replace(tzinfo=utc)
         aluguel.dt_atualizacao = datetime.datetime.utcnow().replace(tzinfo=utc)
         aluguel.save()
+
+        aluguel_onsisdespenda(form)
 
     aluguel_map = aluguel_template()
     aluguel_map['message'] = 'Aluguel salvo com sucesso'
@@ -139,3 +142,13 @@ def aluguel_dependencias(aluguel_form):
     aluguel_form['form'].fields['idt_imovel'].queryset = recuperar_imoveis()
     aluguel_form['form'].fields['idt_inquilino'].queryset = recuperar_inquilinos()
     return aluguel_form
+
+
+def aluguel_onsisdespenda(aluguel):
+    data = {
+        "cd_usuario": 9,
+        "dt_renda": aluguel['dt_recebimento'].data,
+        "vl_renda": float(aluguel['num_aluguel'].data)
+    }
+    print(data)
+    integracao_onsisdespenda('/renda/novo', data)
