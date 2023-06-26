@@ -131,3 +131,5 @@ dmypy.json
 .idea/
 
 notes.txt
+
+docker-compose.yml

@@ -1,6 +1,11 @@
 import itertools
+import os
+import requests
 
 from django.db import connection
+
+
+ONSISDESPENDA_URL = os.getenv('ONSISDESPENDA_URL', 'http://localhost:7005/apis')
 
 
 def ajusta_para_apresentacao(data):
@@ -35,3 +40,9 @@ def recuperar_anos_disponiveis(tabela, coluna):
     lista = cursor.fetchall()
     # Converte a tupla em lista
     return list(itertools.chain.from_iterable(lista))
+
+
+def integracao_onsisdespenda(rota, data):
+    print(data)
+    req = requests.post(url='{}{}'.format(ONSISDESPENDA_URL, rota), json=data)
+    print("{} onsisdespenda :: Status={} | Resp={}".format(rota, req.status_code, req.json()))

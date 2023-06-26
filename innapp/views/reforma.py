@@ -7,7 +7,7 @@ from django.utils.timezone import utc
 from .imovel import recuperar_imoveis
 from ..models import ReformaTbl, ReformaForm
 from ..tables import ReformaTable
-from ..utils.utilidades import recuperar_anos_disponiveis, ajusta_para_apresentacao
+from ..utils.utilidades import recuperar_anos_disponiveis, ajusta_para_apresentacao, integracao_onsisdespenda
 
 
 @login_required(login_url='/acesso/login')
@@ -31,6 +31,8 @@ def reforma_novo(request):
         reforma.dt_criacao = datetime.datetime.utcnow().replace(tzinfo=utc)
         reforma.dt_atualizacao = datetime.datetime.utcnow().replace(tzinfo=utc)
         reforma.save()
+
+        reforma_onsisdespenda(form)
 
     reforma_map = reforma_template()
     reforma_map['message'] = 'Reforma salva com sucesso'
@@ -130,3 +132,14 @@ def reforma_template(idt_reg=0, ano=None):
 def reforma_dependencias(reforma_form):
     reforma_form['form'].fields['idt_imovel'].queryset = recuperar_imoveis()
     return reforma_form
+
+
+def reforma_onsisdespenda(reforma):
+    data = {
+        "cd_usuario": 1,
+        "dt_despesa": reforma['dt_reforma'].data,
+        "vl_despesa": float(reforma['num_reforma'].data),
+        "ds_despesa": reforma['desc_reforma'].data
+    }
+    print(data)
+    integracao_onsisdespenda('/despesa/novo', data)
