@@ -67,4 +67,6 @@ urlpatterns = [
     path('acesso/login', login_logout.login_user),
     path('acesso/logout', login_logout.logout_user),
     path('', inicial.inicio),
+    path('rel/total/lista/mes', relatorio.aluguel_por_mes_referencia),
+    path('rel/total/lista/<int:year>/<int:month>', relatorio.aluguel_por_mes_referencia),
 ]

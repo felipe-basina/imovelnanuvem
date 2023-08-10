@@ -82,3 +82,8 @@ class ReformaImovelTable(Table):
 class AluguelImovelTable(Table):
     endereco = Column(header='imóvel', field='endereco', header_attrs={'style': 'text-align:center;'})
     valor = Column(header='valor', field='valor', header_attrs={'style': 'text-align:center;'})
+
+
+class TotalTable(Table):
+    descricao = Column(header='descrição', field='rotulo', header_attrs={'style': 'text-align:center;'})
+    valor = Column(header='total', field='valor', header_attrs={'style': 'text-align:center;'})

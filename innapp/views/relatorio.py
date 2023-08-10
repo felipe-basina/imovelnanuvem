@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from innapp.reports.consultas import *
-from innapp.tables import MesAnoTable, AnoTable, PendenteTable, ReformaImovelTable, AluguelImovelTable, PendenteAnoTable
+from innapp.tables import MesAnoTable, AnoTable, PendenteTable, ReformaImovelTable, AluguelImovelTable, \
+    PendenteAnoTable, TotalTable
 from innapp.utils.utilidades import recuperar_anos_disponiveis
 
 
@@ -231,6 +232,42 @@ def aluguel_por_imovel(request, year=None):
                                                   'aluguéis por imóvel')})
 
 
+@login_required(login_url='/acesso/login')
+def aluguel_por_mes_referencia(request, year=None, month=None):
+    if year is None:
+        year = datetime.date.today().year
+    if month is None:
+        month = datetime.date.today().month
+
+    total_mes = alugueis_mes_referencia(mes=month, ano=year)
+    total_a_declarar = alugueis_mes_referencia(mes=month, ano=year, condicao='declarar')
+    total_n_declarar = alugueis_mes_referencia(mes=month, ano=year, condicao='nao-declarar')
+    totais = [
+        {'rotulo': 'total no mês', 'valor': converte_para_numerico(total_mes)},
+        {'rotulo': 'total a declarar', 'valor': converte_para_numerico(total_a_declarar)},
+        {'rotulo': 'total a não declarar', 'valor': converte_para_numerico(total_n_declarar)},
+    ]
+
+    current_year = datetime.date.today().year
+    available_years = recuperar_anos_disponiveis('aluguel_tbl', 'dt_recebimento')
+
+    # Verifica se o ano atual esta presente na lista, caso contrario, adiciona
+    if int(current_year) not in available_years:
+        available_years.insert(0, int(current_year))
+
+    template = {
+        'all': TotalTable(totais),
+        'available_years': available_years,
+        'selected_year': year,
+        'available_months': range(1, 13),
+        'selected_month': month,
+        'type_reg': 'total',
+        'type_reg_pl': 'totais'
+    }
+
+    return render(request, 'innapp/rel-totais.html', {'template': template})
+
+
 def relatorio_template(registros, ano, tabela, coluna, tipo_registro, tipo_registro_pl):
     current_year = datetime.date.today().year
     available_years = recuperar_anos_disponiveis(tabela, coluna)
@@ -252,3 +289,10 @@ def relatorio_template(registros, ano, tabela, coluna, tipo_registro, tipo_regis
 
 def converte_para_map(registros, rotulo='periodo'):
     return [{rotulo: descricao, 'valor': valor} for descricao, valor in registros]
+
+
+def converte_para_numerico(data):
+    valor = str(data[0][0])
+    if valor == 'None':
+        return 0.00
+    return valor

@@ -148,3 +148,21 @@ def alugueis_recebidos_ano(ano):
                'ORDER BY al.idt_imovel, al.mes_referencia'
     cursor.execute(consulta, [ano])
     return cursor.fetchall()
+
+
+def alugueis_mes_referencia(mes, ano, condicao=None):
+    cursor = connection.cursor()
+    consulta = 'SELECT sum(num_aluguel) FROM aluguel_tbl ' \
+               'WHERE mes_referencia = %s ' \
+               'AND extract(year from dt_recebimento) = %s ' \
+               '_condition_ '
+
+    filtro = None
+    if condicao == 'declarar':
+        filtro = 'and idt_inquilino not in (7,12,13,14,15,19,21)'
+    elif condicao == 'nao-declarar':
+        filtro = 'and idt_inquilino in (7,12,13,14,15,19,21)'
+
+    consulta = consulta.replace('_condition_', filtro if filtro else '')
+    cursor.execute(consulta, [mes, ano])
+    return cursor.fetchall()
