@@ -87,3 +87,8 @@ class AluguelImovelTable(Table):
 class TotalTable(Table):
     descricao = Column(header='descrição', field='rotulo', header_attrs={'style': 'text-align:center;'})
     valor = Column(header='total', field='valor', header_attrs={'style': 'text-align:center;'})
+
+
+class AdministracaoAdminTable(Table):
+    admin = Column(header='admin', field='rotulo', header_attrs={'style': 'text-align:center;'})
+    admin = Column(header='valor', field='valor', header_attrs={'style': 'text-align:center;'})

@@ -69,4 +69,6 @@ urlpatterns = [
     path('', inicial.inicio),
     path('rel/total/lista/mes', relatorio.aluguel_por_mes_referencia),
     path('rel/total/lista/<int:year>/<int:month>', relatorio.aluguel_por_mes_referencia),
+    path('rel/administracao/admin/lista', relatorio.administracao_por_ano_referencia),
+    path('rel/administracao/admin/lista/<int:year>', relatorio.administracao_por_ano_referencia),
 ]
