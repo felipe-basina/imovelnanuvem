@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 from innapp.reports.consultas import *
 from innapp.tables import MesAnoTable, AnoTable, PendenteTable, ReformaImovelTable, AluguelImovelTable, \
-    PendenteAnoTable, TotalTable
+    PendenteAnoTable, TotalTable, AdministracaoAdminTable
 from innapp.utils.utilidades import recuperar_anos_disponiveis
 
 
@@ -268,6 +268,37 @@ def aluguel_por_mes_referencia(request, year=None, month=None):
     return render(request, 'innapp/rel-totais.html', {'template': template})
 
 
+@login_required(login_url='/acesso/login')
+def administracao_por_ano_referencia(request, year=None):
+    if year is None:
+        year = datetime.date.today().year
+
+    admin_ano = administracao_ano_referencia(ano=year)
+    totais = [
+        {'rotulo': 'total', 'valor': converte_para_numerico(admin_ano)},
+        {'rotulo': 'Hércules', 'valor': converte_para_numerico(admin_ano, 1)},
+        {'rotulo': 'Rosi', 'valor': converte_para_numerico(admin_ano, 2)},
+        {'rotulo': 'Fábio', 'valor': converte_para_numerico(admin_ano, 3)},
+    ]
+
+    current_year = datetime.date.today().year
+    available_years = recuperar_anos_disponiveis('aluguel_tbl', 'dt_recebimento')
+
+    # Verifica se o ano atual esta presente na lista, caso contrario, adiciona
+    if int(current_year) not in available_years:
+        available_years.insert(0, int(current_year))
+
+    template = {
+        'all': AdministracaoAdminTable(totais),
+        'available_years': available_years,
+        'selected_year': year,
+        'type_reg': 'administração',
+        'type_reg_pl': 'administrações'
+    }
+
+    return render(request, 'innapp/rel-administracao-admin.html', {'template': template})
+
+
 def relatorio_template(registros, ano, tabela, coluna, tipo_registro, tipo_registro_pl):
     current_year = datetime.date.today().year
     available_years = recuperar_anos_disponiveis(tabela, coluna)
@@ -291,8 +322,8 @@ def converte_para_map(registros, rotulo='periodo'):
     return [{rotulo: descricao, 'valor': valor} for descricao, valor in registros]
 
 
-def converte_para_numerico(data):
-    valor = str(data[0][0])
+def converte_para_numerico(data, index=0):
+    valor = str(data[0][index])
     if valor == 'None':
         return 0.00
     return valor
