@@ -91,4 +91,4 @@ class TotalTable(Table):
 
 class AdministracaoAdminTable(Table):
     admin = Column(header='admin', field='rotulo', header_attrs={'style': 'text-align:center;'})
-    admin = Column(header='valor', field='valor', header_attrs={'style': 'text-align:center;'})
+    valor = Column(header='valor', field='valor', header_attrs={'style': 'text-align:center;'})
