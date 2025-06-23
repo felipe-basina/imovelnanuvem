@@ -1,0 +1,50 @@
+{% extends 'innapp/base.html' %}
+{% load humanize %}
+{% load table_tags %}
+{% block content %}
+
+<div class="panel-heading">
+    <h3 class="panel-title">
+        Relatório {{ template.type_reg }} por admin ano referência
+    </h3>
+</div>
+
+<div class="panel-body">
+    <div class="col-md-4 selecao-ano">
+        <label for="ano_aluguel">Selecione o ano para visualizar {{ template.type_reg_pl }}</label>
+    </div>
+
+    <div class="col-md-2">
+        <select name="ano_registro" class="form-control">
+            {% for ano in template.available_years %}
+                <!-- Forçando a comparação entre valores inteiros -->
+                {% if template.selected_year|add:0 == ano|add:0 %}
+                    <option value="{{ano}}" selected>{{ano}}</option>
+                {% else %}
+                    <option value="{{ano}}">{{ano}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-md-1">
+        <button onclick="javascript:recuperarAdmin();" class="btn btn-primary">consultar</button>
+    </div>
+
+    <div class="col-md-3"></div>
+</div>
+
+<div>
+    {% render_table template.all %}
+</div>
+
+<script>
+
+    function recuperarAdmin() {
+        let ano = document.getElementsByName("ano_registro")[0].value;
+        window.location.href = '/rel/administracao/admin/lista/' + ano;
+    }
+
+</script>
+
+{% endblock %}
