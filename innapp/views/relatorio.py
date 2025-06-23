@@ -275,10 +275,9 @@ def administracao_por_ano_referencia(request, year=None):
 
     admin_ano = administracao_ano_referencia(ano=year)
     totais = [
-        {'rotulo': 'total', 'valor': converte_para_numerico(admin_ano)},
-        {'rotulo': 'Hércules', 'valor': converte_para_numerico(admin_ano, 1)},
-        {'rotulo': 'Rosi', 'valor': converte_para_numerico(admin_ano, 2)},
-        {'rotulo': 'Fábio', 'valor': converte_para_numerico(admin_ano, 3)},
+        {'rotulo': 'Hércules', 'valor': converte_para_numerico(admin_ano)},
+        {'rotulo': 'Rosi', 'valor': converte_para_numerico(admin_ano, 1)},
+        {'rotulo': 'Fábio', 'valor': converte_para_numerico(admin_ano, 2)},
     ]
 
     current_year = datetime.date.today().year
