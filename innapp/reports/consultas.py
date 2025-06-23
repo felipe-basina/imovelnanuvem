@@ -171,10 +171,10 @@ def administracao_ano_referencia(ano):
     cursor = connection.cursor()
     consulta = 'SELECT ' \
                'sum(case when idt_imovel in (1,2,3,6,7,8,9,10,11,12,13,14,15,16,17,18,19) then num_administracao else 0 end), ' \
-               'sum(case when idt_imovel in (1,2,3,6,7,8,9,10,11,12,13) then num_administracao else 0 end), ' \ 
-               'sum(case when idt_imovel in (14,15) then num_administracao else 0 end), ' \ 
+               'sum(case when idt_imovel in (1,2,3,6,7,8,9,10,11,12,13) then num_administracao else 0 end), ' \
+               'sum(case when idt_imovel in (14,15) then num_administracao else 0 end), ' \
                'sum(case when idt_imovel in (16,17,18,19) then num_administracao else 0 end) ' \
-               'FROM aluguel_tbl ' \ 
+               'FROM aluguel_tbl ' \
                'where EXTRACT(year from dt_recebimento) = %s '
 
     cursor.execute(consulta, [ano])
