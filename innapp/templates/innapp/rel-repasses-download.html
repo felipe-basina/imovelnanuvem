@@ -1,0 +1,60 @@
+{% extends 'innapp/base.html' %}
+{% load humanize %}
+{% load table_tags %}
+{% block content %}
+
+<div class="panel-heading">
+    <h3 class="panel-title">
+        Relatório de {{ template.type_reg }} para download
+    </h3>
+</div>
+
+<div class="panel-body">
+    <div class="col-md-4 selecao-ano">
+        <label for="ano_aluguel">Selecione o ano/mês para baixar o relatório de {{ template.type_reg_pl }}</label>
+    </div>
+
+    <div class="col-md-2">
+        <select name="ano_registro" class="form-control">
+            {% for ano in template.available_years %}
+                <!-- Forçando a comparação entre valores inteiros -->
+                {% if template.selected_year|add:0 == ano|add:0 %}
+                    <option value="{{ano}}" selected>{{ano}}</option>
+                {% else %}
+                    <option value="{{ano}}">{{ano}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <select name="mes_registro" class="form-control">
+            {% for mes in template.available_months %}
+                <!-- Forçando a comparação entre valores inteiros -->
+                {% if template.selected_month|add:0 == mes|add:0 %}
+                    <option value="{{mes}}" selected>{{mes}}</option>
+                {% else %}
+                    <option value="{{mes}}">{{mes}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-md-1">
+        <button onclick="javascript:downloadRelRepasses();" class="btn btn-primary">download</button>
+    </div>
+
+    <div class="col-md-3"></div>
+</div>
+
+<script>
+
+    function downloadRelRepasses() {
+        let ano = document.getElementsByName("ano_registro")[0].value;
+        let mes = document.getElementsByName("mes_registro")[0].value;
+        window.location.href = '/rel/repasses/download/' + ano + '/' + mes;
+    }
+
+</script>
+
+{% endblock %}

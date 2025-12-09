@@ -178,3 +178,22 @@ def administracao_ano_referencia(ano):
 
     cursor.execute(consulta, [ano])
     return cursor.fetchall()
+
+def repasses_ano_mes_referencia(ano, mes):
+    cursor = connection.cursor()
+    consulta = 'SELECT ' \
+               'im.desc_endereco as IMOVEL, a.dt_recebimento as DAT_REPASSE, ' \
+               '(a.num_aluguel + a.num_administracao) as VLR_ALUGUEL, ' \
+               'a.num_aluguel as VLR_RECEBIDO, ' \
+               'a.num_administracao as VLR_ADMIN, ' \
+               'a.num_acordo as VLR_DESCONTO, ' \
+               'case when inq.desc_tipo = \'PJ\' then \'S\' else \'N\' end as IMPOSTO_RETIDO_NA_FONTE ' \
+               'from imovel_tbl im ' \
+               'inner join aluguel_tbl a on a.idt_imovel = im.idt_imovel ' \
+               'inner join inquilino_tbl inq on inq.idt_inquilino = a.idt_inquilino ' \
+               'where EXTRACT(YEAR FROM a.dt_recebimento) = %s ' \
+               'and a.mes_referencia = %s ' \
+               'order by a.dt_recebimento'
+
+    cursor.execute(consulta, [ano, mes])
+    return cursor.fetchall()

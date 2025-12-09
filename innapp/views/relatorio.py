@@ -2,12 +2,14 @@ from collections import OrderedDict
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.http import HttpResponse
 
 from innapp.reports.consultas import *
 from innapp.tables import MesAnoTable, AnoTable, PendenteTable, ReformaImovelTable, AluguelImovelTable, \
     PendenteAnoTable, TotalTable, AdministracaoAdminTable
 from innapp.utils.utilidades import recuperar_anos_disponiveis
 
+import csv
 
 @login_required(login_url='/acesso/login')
 def aluguel_mes_ano(request, year=None):
@@ -296,6 +298,54 @@ def administracao_por_ano_referencia(request, year=None):
     }
 
     return render(request, 'innapp/rel-administracao-admin.html', {'template': template})
+
+
+@login_required(login_url='/acesso/login')
+def download_relatorio_repasses(request, year=None, month=None):
+    current_year = datetime.date.today().year
+    available_years = recuperar_anos_disponiveis('aluguel_tbl', 'dt_recebimento')
+
+    # Verifica se o ano atual esta presente na lista, caso contrario, adiciona
+    if int(current_year) not in available_years:
+        available_years.insert(0, int(current_year))
+
+    if year is None and month is None:
+        year = current_year
+        month = datetime.date.today().month
+
+        template = {
+            'available_years': available_years,
+            'selected_year': year,
+            'available_months': range(1, 13),
+            'selected_month': month,
+            'type_reg': 'repasse',
+            'type_reg_pl': 'repasses'
+        }
+
+        return render(request, 'innapp/rel-repasses-download.html', {'template': template})
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = ('attachment; filename="repasses_{0}_{1}_{2}.csv"'
+                                       .format(year, month, datetime.date.today().strftime('%Y-%m-%d')))
+
+    writer = csv.writer(response)
+    writer.writerow(
+        ['IMOVEL', 'DAT_REPASSE', 'VLR_ALUGUEL', 'VLR_RECEBIDO', 'VLR_ADMIN', 'VLR_DESCONTO', 'IMPOSTO_RETIDO_NA_FONTE']
+    )
+
+    repasses = repasses_ano_mes_referencia(year, month)
+    for repasse in repasses:
+        writer.writerow([
+            repasse[0],
+            repasse[1],
+            repasse[2],
+            repasse[3],
+            repasse[4],
+            repasse[5],
+            repasse[6]
+        ])
+
+    return response
 
 
 def relatorio_template(registros, ano, tabela, coluna, tipo_registro, tipo_registro_pl):
