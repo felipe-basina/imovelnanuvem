@@ -71,4 +71,6 @@ urlpatterns = [
     path('rel/total/lista/<int:year>/<int:month>', relatorio.aluguel_por_mes_referencia),
     path('rel/administracao/admin/lista', relatorio.administracao_por_ano_referencia),
     path('rel/administracao/admin/lista/<int:year>', relatorio.administracao_por_ano_referencia),
+    path('rel/repasses/download', relatorio.download_relatorio_repasses),
+    path('rel/repasses/download/<int:year>/<int:month>', relatorio.download_relatorio_repasses),
 ]
