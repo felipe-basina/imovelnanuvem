@@ -35,6 +35,7 @@ urlpatterns = [
     path('aluguel/novo', aluguel.aluguel_novo),
     path('aluguel/<int:idt>', aluguel.aluguel_por_id, name='editar_aluguel'),
     path('aluguel/edita/<int:idt>', aluguel.aluguel_edita),
+    path('aluguel/repete/<int:idt>', aluguel.aluguel_repete_por_id, name='repetir_aluguel'),
     path('reforma/lista', reforma.reforma_todos),
     path('reforma/lista/ano/<int:year>', reforma.reforma_todos_por_ano),
     path('reforma/novo', reforma.reforma_novo),
