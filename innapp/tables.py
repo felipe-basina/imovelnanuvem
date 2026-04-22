@@ -38,7 +38,8 @@ class AluguelTable(Table):
     dt_criacao = DatetimeColumn(header='dt. criação', field='dt_criacao', format='%d/%m/%Y %H:%M', header_attrs={'style': 'text-align:center;'})
     dt_atualizacao = DatetimeColumn(header='dt. atualização', field='dt_atualizacao', format='%d/%m/%Y %H:%M', header_attrs={'style': 'text-align:center;'})
     acoes = LinkColumn(header='ações', sortable=False, links=[
-        Link(text='', viewname='editar_aluguel', args=[A('pk')], attrs={'class': 'fa fa-pencil-square-o fa-fw'})
+        Link(text='', viewname='editar_aluguel', args=[A('pk')], attrs={'class': 'fa fa-pencil-square-o fa-fw'}),
+        Link(text='', viewname='repetir_aluguel', args=[A('pk')], attrs={'class': 'fa fa-clone fa-fw'})
     ], header_attrs={'style': 'text-align:center;'})
 
 
