@@ -113,6 +113,41 @@ def aluguel_edita(request, idt):
     return render(request, 'innapp/aluguel.html', {'template': aluguel_map})
 
 
+@login_required(login_url='/acesso/login')
+def aluguel_repete_por_id(request, idt):
+    aluguel_map = {}
+
+    if not idt:
+        aluguel_map['message'] = 'Registro inválido'
+        aluguel_map['status'] = 'danger'
+        return render(request, 'innapp/aluguel.html', {'template': aluguel_map})
+
+    try:
+        aluguel = AluguelTbl.objects.get(idt_aluguel=idt)
+
+        hoje = datetime.date.today()
+
+        dt_recebimento = ajusta_para_apresentacao(hoje)
+
+        aluguel_map = aluguel_template(ano=hoje.year)
+
+        aluguel_form = AluguelForm(initial={
+            'idt_imovel': aluguel.idt_imovel,
+            'idt_inquilino': aluguel.idt_inquilino,
+            'dt_recebimento': dt_recebimento,
+            'num_aluguel': aluguel.num_aluguel,
+            'mes_referencia': hoje.month,
+            'num_administracao': aluguel.num_administracao,
+            'num_acordo': aluguel.num_acordo,
+        })
+        aluguel_map['form'] = aluguel_form
+    except AluguelTbl.DoesNotExist:
+        aluguel_map['message'] = 'Registro não encontrado'
+        aluguel_map['status'] = 'danger'
+
+    return render(request, 'innapp/aluguel.html', {'template': aluguel_dependencias(aluguel_map)})
+
+
 def aluguel_template(idt_reg=0, ano=None):
     if ano is None:
         ano = datetime.date.today().year
