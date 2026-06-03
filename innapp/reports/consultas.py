@@ -192,8 +192,8 @@ def repasses_ano_mes_referencia(ano, mes):
                'inner join inquilino_tbl inq on inq.idt_inquilino = a.idt_inquilino ' \
                'where EXTRACT(YEAR FROM a.dt_recebimento) = %s ' \
                'and a.mes_referencia = %s ' \
-               'and im.desc_endereco not like \'%Bergson%\'' \
+               'and im.desc_endereco not like %s ' \
                'order by a.dt_recebimento'
 
-    cursor.execute(consulta, [ano, mes])
+    cursor.execute(consulta, [ano, mes, '%Bergson%'])
     return cursor.fetchall()
