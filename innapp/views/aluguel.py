@@ -181,7 +181,7 @@ def aluguel_dependencias(aluguel_form):
 
 def aluguel_onsisdespenda(aluguel):
     data = {
-        "cd_usuario": 9,
+        "cd_usuario": 10,
         "dt_renda": aluguel['dt_recebimento'].data,
         "vl_renda": float(aluguel['num_aluguel'].data)
     }
