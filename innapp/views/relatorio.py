@@ -330,7 +330,7 @@ def download_relatorio_repasses(request, year=None, month=None):
 
     writer = csv.writer(response)
     writer.writerow(
-        ['IMOVEL', 'DAT_REPASSE', 'VLR_ALUGUEL', 'VLR_RECEBIDO', 'VLR_ADMIN', 'VLR_DESCONTO', 'IMPOSTO_RETIDO_NA_FONTE']
+        ['IMOVEL', 'DAT_REPASSE', 'VLR_ALUGUEL', 'VLR_RECEBIDO', 'VLR_ADMIN', 'VLR_DESCONTO']
     )
 
     repasses = repasses_ano_mes_referencia(year, month)
@@ -341,8 +341,7 @@ def download_relatorio_repasses(request, year=None, month=None):
             repasse[2],
             repasse[3],
             repasse[4],
-            repasse[5],
-            repasse[6]
+            repasse[5]
         ])
 
     return response
