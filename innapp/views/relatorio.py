@@ -338,10 +338,10 @@ def download_relatorio_repasses(request, year=None, month=None):
         writer.writerow([
             repasse[0],
             repasse[1],
-            repasse[2],
-            repasse[3],
-            repasse[4],
-            repasse[5]
+            substituicao(repasse[2]),
+            substituicao(repasse[3]),
+            substituicao(repasse[4]),
+            substituicao(repasse[5])
         ])
 
     return response
@@ -375,3 +375,10 @@ def converte_para_numerico(data, index=0):
     if valor == 'None':
         return 0.00
     return valor
+
+
+def substituicao(data):
+    valor = str(data)
+    if valor == 'None':
+        return '0,00'
+    return valor.replace('.', ',')
