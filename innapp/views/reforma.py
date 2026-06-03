@@ -136,7 +136,7 @@ def reforma_dependencias(reforma_form):
 
 def reforma_onsisdespenda(reforma):
     data = {
-        "cd_usuario": 1,
+        "cd_usuario": 10,
         "dt_despesa": reforma['dt_reforma'].data,
         "vl_despesa": float(reforma['num_reforma'].data),
         "ds_despesa": reforma['desc_reforma'].data
