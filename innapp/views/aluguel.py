@@ -181,8 +181,9 @@ def aluguel_dependencias(aluguel_form):
 
 def aluguel_onsisdespenda(aluguel):
     bergson = (16, 17, 18, 19)
+    idt_imovel = int(aluguel['idt_imovel'].data)
     cd_usuario = 10
-    if aluguel['idt_imovel'].data in bergson:
+    if idt_imovel in bergson:
         cd_usuario = 9
     data = {
         "cd_usuario": cd_usuario,
