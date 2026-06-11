@@ -34,7 +34,7 @@ def aluguel_novo(request):
         aluguel.dt_atualizacao = datetime.datetime.utcnow().replace(tzinfo=utc)
         aluguel.save()
 
-        aluguel_onsisdespenda(form)
+        aluguel_onsisdespenda(form, aluguel.idt_imovel)
 
     aluguel_map = aluguel_template()
     aluguel_map['message'] = 'Aluguel salvo com sucesso'
@@ -179,9 +179,13 @@ def aluguel_dependencias(aluguel_form):
     return aluguel_form
 
 
-def aluguel_onsisdespenda(aluguel):
+def aluguel_onsisdespenda(aluguel, idt_imovel):
+    bergson = (16, 17, 18, 19)
+    cd_usuario = 10
+    if idt_imovel in bergson:
+        cd_usuario = 9
     data = {
-        "cd_usuario": 10,
+        "cd_usuario": cd_usuario,
         "dt_renda": aluguel['dt_recebimento'].data,
         "vl_renda": float(aluguel['num_aluguel'].data)
     }
