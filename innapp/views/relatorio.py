@@ -359,14 +359,14 @@ def impostos_por_mes_referencia(request, year=None, month=None):
     impostos = impostos_ano_mes_referencia(year, month)
     valores = [Decimal(converte_para_numerico(impostos, 1)), Decimal(converte_para_numerico(impostos, 2)),
              Decimal(converte_para_numerico(impostos, 4)), Decimal(converte_para_numerico(impostos, 5))]
-    total = round(sum(valores), 2)
+    total = arredonda(sum(valores))
     totais = [
-        {'rotulo': 'valor bruto', 'valor': format(converte_para_numerico(impostos), ".2f")},
-        {'rotulo': 'cofins (3%)', 'valor': format(converte_para_numerico(impostos, 1), ".2f")},
-        {'rotulo': 'pis (0.65%)', 'valor': format(converte_para_numerico(impostos, 2), ".2f")},
-        {'rotulo': 'valor lucro presumido (32%)', 'valor': format(converte_para_numerico(impostos, 3), ".2f")},
-        {'rotulo': 'csll (9%)', 'valor': format(converte_para_numerico(impostos, 4), ".2f")},
-        {'rotulo': 'irpj (15%)', 'valor': format(converte_para_numerico(impostos, 5), ".2f")},
+        {'rotulo': 'valor bruto', 'valor': arredonda(converte_para_numerico(impostos))},
+        {'rotulo': 'cofins (3%)', 'valor': arredonda(converte_para_numerico(impostos, 1))},
+        {'rotulo': 'pis (0.65%)', 'valor': arredonda(converte_para_numerico(impostos, 2))},
+        {'rotulo': 'valor lucro presumido (32%)', 'valor': arredonda(converte_para_numerico(impostos, 3))},
+        {'rotulo': 'csll (9%)', 'valor': arredonda(converte_para_numerico(impostos, 4))},
+        {'rotulo': 'irpj (15%)', 'valor': arredonda(converte_para_numerico(impostos, 5))},
         {'rotulo': 'total impostos', 'valor': total},
     ]
 
@@ -425,3 +425,7 @@ def substituicao(data):
     if valor == 'None':
         return '0,00'
     return valor.replace('.', ',')
+
+
+def arredonda(data):
+    return round(float(data), 2)
