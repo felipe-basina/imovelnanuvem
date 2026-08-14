@@ -357,8 +357,6 @@ def impostos_por_mes_referencia(request, year=None, month=None):
         month = datetime.date.today().month
 
     impostos = impostos_ano_mes_referencia(year, month)
-    valores = [Decimal(converte_para_numerico(impostos, 1)), Decimal(converte_para_numerico(impostos, 2)),
-             Decimal(converte_para_numerico(impostos, 4)), Decimal(converte_para_numerico(impostos, 5))]
     cofins_pis = arredonda(sum([Decimal(converte_para_numerico(impostos, 1)), Decimal(converte_para_numerico(impostos, 2))]))
     csll_irpj = arredonda(sum([Decimal(converte_para_numerico(impostos, 4)), Decimal(converte_para_numerico(impostos, 5))]))
 
