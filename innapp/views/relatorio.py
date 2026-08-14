@@ -355,15 +355,16 @@ def impostos_por_mes_referencia(request, year=None, month=None):
         month = datetime.date.today().month
 
     impostos = impostos_ano_mes_referencia(year, month)
-    total = (converte_para_numerico(impostos, 1) + converte_para_numerico(impostos, 2)
-             + converte_para_numerico(impostos, 4) + converte_para_numerico(impostos, 5))
+    valores = [converte_para_numerico(impostos, 1), converte_para_numerico(impostos, 2),
+             converte_para_numerico(impostos, 4), converte_para_numerico(impostos, 5)]
+    total = round(sum(valores), 2)
     totais = [
-        {'rotulo': 'valor bruto', 'valor': converte_para_numerico(impostos)},
-        {'rotulo': 'cofins (3%)', 'valor': converte_para_numerico(impostos, 1)},
-        {'rotulo': 'pis (0.65%)', 'valor': converte_para_numerico(impostos, 2)},
-        {'rotulo': 'valor lucro presumido (32%)', 'valor': converte_para_numerico(impostos, 3)},
-        {'rotulo': 'csll (9%)', 'valor': converte_para_numerico(impostos, 4)},
-        {'rotulo': 'irpj (15%)', 'valor': converte_para_numerico(impostos, 5)},
+        {'rotulo': 'valor bruto', 'valor': format(converte_para_numerico(impostos), ".2f")},
+        {'rotulo': 'cofins (3%)', 'valor': format(converte_para_numerico(impostos, 1), ".2f")},
+        {'rotulo': 'pis (0.65%)', 'valor': format(converte_para_numerico(impostos, 2), ".2f")},
+        {'rotulo': 'valor lucro presumido (32%)', 'valor': format(converte_para_numerico(impostos, 3), ".2f")},
+        {'rotulo': 'csll (9%)', 'valor': format(converte_para_numerico(impostos, 4), ".2f")},
+        {'rotulo': 'irpj (15%)', 'valor': format(converte_para_numerico(impostos, 5), ".2f")},
         {'rotulo': 'total impostos', 'valor': total},
     ]
 
