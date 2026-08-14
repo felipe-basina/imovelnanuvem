@@ -1,5 +1,7 @@
 from collections import OrderedDict
 
+from decimal import Decimal
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -355,8 +357,8 @@ def impostos_por_mes_referencia(request, year=None, month=None):
         month = datetime.date.today().month
 
     impostos = impostos_ano_mes_referencia(year, month)
-    valores = [converte_para_numerico(impostos, 1), converte_para_numerico(impostos, 2),
-             converte_para_numerico(impostos, 4), converte_para_numerico(impostos, 5)]
+    valores = [Decimal(converte_para_numerico(impostos, 1)), Decimal(converte_para_numerico(impostos, 2)),
+             Decimal(converte_para_numerico(impostos, 4)), Decimal(converte_para_numerico(impostos, 5))]
     total = round(sum(valores), 2)
     totais = [
         {'rotulo': 'valor bruto', 'valor': format(converte_para_numerico(impostos), ".2f")},
