@@ -359,7 +359,6 @@ def impostos_por_mes_referencia(request, year=None, month=None):
     impostos = impostos_ano_mes_referencia(year, month)
     cofins_pis = arredonda(sum([Decimal(converte_para_numerico(impostos, 1)), Decimal(converte_para_numerico(impostos, 2))]))
     csll_irpj = arredonda(sum([Decimal(converte_para_numerico(impostos, 4)), Decimal(converte_para_numerico(impostos, 5))]))
-
     totais = [
         {'rotulo': 'valor bruto', 'valor': arredonda(converte_para_numerico(impostos))},
         {'rotulo': 'valor lucro presumido (32%)', 'valor': arredonda(converte_para_numerico(impostos, 3))},
