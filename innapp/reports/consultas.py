@@ -197,3 +197,22 @@ def repasses_ano_mes_referencia(ano, mes):
 
     cursor.execute(consulta, [ano, mes, '%Bergson%'])
     return cursor.fetchall()
+
+def impostos_ano_mes_referencia(ano, mes):
+    cursor = connection.cursor()
+    consulta = 'SELECT ' \
+               '(sum(a.num_aluguel + a.num_administracao)) as VLR_ALUGUEL, ' \
+               '(sum(a.num_aluguel + a.num_administracao) * 0.03) as COFINS, ' \
+               '(sum(a.num_aluguel + a.num_administracao) * 0.0065) as PIS, ' \
+               '(sum(a.num_aluguel + a.num_administracao) * 0.32) as VLR_LUC_PRESUMIDO, ' \
+               '((sum(a.num_aluguel + a.num_administracao) * 0.32) * 0.09) as CSLL, ' \
+               '((sum(a.num_aluguel + a.num_administracao) * 0.32) * 0.15) as IRPJ ' \
+               'from imovel_tbl im ' \
+               'inner join aluguel_tbl a on a.idt_imovel = im.idt_imovel ' \
+               'where EXTRACT(YEAR FROM a.dt_recebimento) = %s ' \
+               'and a.mes_referencia = %s ' \
+               'and im.desc_endereco not like %s ' \
+               'group by a.mes_referencia'
+
+    cursor.execute(consulta, [ano, mes, '%Bergson%'])
+    return cursor.fetchall()

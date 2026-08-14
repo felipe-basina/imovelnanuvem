@@ -347,6 +347,46 @@ def download_relatorio_repasses(request, year=None, month=None):
     return response
 
 
+@login_required(login_url='/acesso/login')
+def impostos_por_mes_referencia(request, year=None, month=None):
+    if year is None:
+        year = datetime.date.today().year
+    if month is None:
+        month = datetime.date.today().month
+
+    impostos = impostos_ano_mes_referencia(year, month)
+    total = (converte_para_numerico(impostos[1]) + converte_para_numerico(impostos[2])
+             + converte_para_numerico(impostos[4]) + converte_para_numerico(impostos[5]))
+    totais = [
+        {'rotulo': 'valor bruto', 'valor': converte_para_numerico(impostos[0])},
+        {'rotulo': 'cofins (3%)', 'valor': converte_para_numerico(impostos[1])},
+        {'rotulo': 'pis (0.65%)', 'valor': converte_para_numerico(impostos[2])},
+        {'rotulo': 'valor lucro presumido (32%)', 'valor': converte_para_numerico(impostos[3])},
+        {'rotulo': 'csll (9%)', 'valor': converte_para_numerico(impostos[4])},
+        {'rotulo': 'irpj (15%)', 'valor': converte_para_numerico(impostos[5])},
+        {'rotulo': 'total impostos', 'valor': total},
+    ]
+
+    current_year = datetime.date.today().year
+    available_years = recuperar_anos_disponiveis('aluguel_tbl', 'dt_recebimento')
+
+    # Verifica se o ano atual esta presente na lista, caso contrario, adiciona
+    if int(current_year) not in available_years:
+        available_years.insert(0, int(current_year))
+
+    template = {
+        'all': TotalTable(totais),
+        'available_years': available_years,
+        'selected_year': year,
+        'available_months': range(1, 13),
+        'selected_month': month,
+        'type_reg': 'imposto',
+        'type_reg_pl': 'impostos'
+    }
+
+    return render(request, 'innapp/rel-impostos.html', {'template': template})
+
+
 def relatorio_template(registros, ano, tabela, coluna, tipo_registro, tipo_registro_pl):
     current_year = datetime.date.today().year
     available_years = recuperar_anos_disponiveis(tabela, coluna)
