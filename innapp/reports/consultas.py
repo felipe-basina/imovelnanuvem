@@ -159,9 +159,9 @@ def alugueis_mes_referencia(mes, ano, condicao=None):
 
     filtro = None
     if condicao == 'declarar':
-        filtro = 'and idt_imovel in (1,2,3,6,7,9,10,11,12,13)'
+        filtro = 'and idt_imovel in (1,2,3,6,7,8,9,10,11,12,13,14,15,20,21)'
     elif condicao == 'nao-declarar':
-        filtro = 'and idt_imovel not in (1,2,3,6,7,9,10,11,12,13)'
+        filtro = 'and idt_imovel not in (1,2,3,6,7,8,9,10,11,12,13,14,15,20,21)'
 
     consulta = consulta.replace('_condition_', filtro if filtro else '')
     cursor.execute(consulta, [mes, ano])
@@ -201,12 +201,12 @@ def repasses_ano_mes_referencia(ano, mes):
 def impostos_ano_mes_referencia(ano, mes):
     cursor = connection.cursor()
     consulta = 'SELECT ' \
-               '(sum(a.num_aluguel + a.num_administracao)) as VLR_ALUGUEL, ' \
-               '(sum(a.num_aluguel + a.num_administracao) * 0.03) as COFINS, ' \
-               '(sum(a.num_aluguel + a.num_administracao) * 0.0065) as PIS, ' \
-               '(sum(a.num_aluguel + a.num_administracao) * 0.32) as VLR_LUC_PRESUMIDO, ' \
-               '((sum(a.num_aluguel + a.num_administracao) * 0.32) * 0.09) as CSLL, ' \
-               '((sum(a.num_aluguel + a.num_administracao) * 0.32) * 0.15) as IRPJ ' \
+               '(sum(a.num_aluguel + a.num_administracao + a.num_acordo)) as VLR_ALUGUEL, ' \
+               '(sum(a.num_aluguel + a.num_administracao + a.num_acordo) * 0.03) as COFINS, ' \
+               '(sum(a.num_aluguel + a.num_administracao + a.num_acordo) * 0.0065) as PIS, ' \
+               '(sum(a.num_aluguel + a.num_administracao + a.num_acordo) * 0.32) as VLR_LUC_PRESUMIDO, ' \
+               '((sum(a.num_aluguel + a.num_administracao + a.num_acordo) * 0.32) * 0.09) as CSLL, ' \
+               '((sum(a.num_aluguel + a.num_administracao + a.num_acordo) * 0.32) * 0.15) as IRPJ ' \
                'from imovel_tbl im ' \
                'inner join aluguel_tbl a on a.idt_imovel = im.idt_imovel ' \
                'where EXTRACT(YEAR FROM a.dt_recebimento) = %s ' \
