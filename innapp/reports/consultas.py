@@ -159,9 +159,9 @@ def alugueis_mes_referencia(mes, ano, condicao=None):
 
     filtro = None
     if condicao == 'declarar':
-        filtro = 'and idt_imovel in (1,2,3,6,7,9,10,11,12,13)'
+        filtro = 'and idt_imovel in (1,2,3,6,7,8,9,10,11,12,13,14,15,20,21)'
     elif condicao == 'nao-declarar':
-        filtro = 'and idt_imovel not in (1,2,3,6,7,9,10,11,12,13)'
+        filtro = 'and idt_imovel not in (1,2,3,6,7,8,9,10,11,12,13,14,15,20,21)'
 
     consulta = consulta.replace('_condition_', filtro if filtro else '')
     cursor.execute(consulta, [mes, ano])
